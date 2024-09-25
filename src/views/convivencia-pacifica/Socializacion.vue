@@ -383,7 +383,7 @@ const actividadTipo = [
     { id: 1, name: 'Carteles' },  
     { id: 2, name: 'Medios de comunicación interna' },  
     { id: 3, name: 'Redes sociales' },  
-    { id: 4, name: 'Talleres' },  
+    { id: 4, name: 'Talleres222' },  
     { id: 5, name: 'Ferias' },  
     { id: 6, name: 'Otros' }
 ]

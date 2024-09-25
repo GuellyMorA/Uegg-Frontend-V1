@@ -23,6 +23,10 @@ const comisionAprobacion = ref();
 const institucionEducativa = ref();
 const temaDisciplinario = ref();
 
+const miembrosComisionConstruccion = ref();
+
+
+
 const form: any = ref({
     sie: null,
     departamentoId: null,
@@ -103,6 +107,9 @@ onMounted(async() => {
     if(user && user.codigo_sie){
         form.value.sie = user.codigo_sie;
         findInstitucionEducativa();
+        findMiembrosComisionConstruccion();
+
+
     }
 }); 
 
@@ -113,7 +120,7 @@ const findInstitucionEducativa = async () => {
         console.log("res", res);
         if(res.data && res.data.length > 0){
             form.value.departamentoId = res.data[0].departamento_codigo;
-            form.value.departamentoNombre = res.data[0].departamento;
+            form.value.departamentoNombre = 'ronal'; //res.data[0].departamento;
             form.value.municipioId = res.data[0].municipio_codigo;  
             form.value.municipioNombre = res.data[0].municipio;
             form.value.unidadEducativa = res.data[0].institucioneducativa;
@@ -137,6 +144,42 @@ const findInstitucionEducativa = async () => {
         form.value.director = '';
     }
 }; 
+
+const findMiembrosComisionConstruccion = async () => {
+    console.log(form.value.sie);
+    if(String(form.value.sie).length === 8){
+        const res = await ConvivenciaPacifica.findMiembrosComisionConstruccion(form.value.sie);
+        console.log("res", res);
+        if(res.data && res.data.length > 0){
+          //  form.value.comisionSocializacionEstudiante= res.data[0].  ;       
+            form.value.comisionSocializacionEstudianteNombre= res.data[0].nombres_miembro ; 
+         //   form.value.comisionSocializacionDirector= res.data[0].  ;         
+            form.value.comisionSocializacionDirectorNombre= res.data[0].nombres_director  ;   
+         //   form.value.comisionSocializacionMaestro= res.data[0].  ;          
+            form.value.comisionSocializacionMaestroNombre= res.data[0].nombres_miembro  ;    
+         //   form.value.comisionSocializacionPadre= res.data[0].  ;            
+            form.value.comisionSocializacionPadreNombre= res.data[0].nombres_miembro  ;      
+         //   form.value.comisionSocializacionOtro= res.data[0].  ;             
+            form.value.comisionSocializacionOtroNombre= res.data[0].nombres_miembro  ;    
+
+
+            miembrosComisionConstruccion.value = res.data[0];
+            console.log(res.data[0], form.value.sie.length, res);
+        }
+    } else {
+        miembrosComisionConstruccion.value = null;
+        find.value = false;
+        form.value.departamentoId = null;
+        form.value.departamentoNombre = '';
+        form.value.municipioId = null;
+        form.value.municipioNombre = '';
+        form.value.unidadEducativa = '';
+        form.value.nivel = '';
+        form.value.modalidad = '';
+        form.value.director = '';
+    }
+}; 
+
 
 const onDateInput = (event: any) => {
     // Remove non-numeric characters from the input

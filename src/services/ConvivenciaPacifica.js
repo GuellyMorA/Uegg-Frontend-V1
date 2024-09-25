@@ -44,9 +44,6 @@ class ConvivenciaPacificaService {
         return error;
     });
   } 
-
-  findInstitucionEducativa(id){
-
     // try {
     //   const user = localStorage.getItem('user');
     //   Create a new Axios instance with custom configurations
@@ -65,7 +62,7 @@ class ConvivenciaPacificaService {
     //   return error;
     // }
 
-    
+  findInstitucionEducativa(id){
     
     const user = JSON.parse(localStorage.getItem('user'));
     return http2({
@@ -74,7 +71,7 @@ class ConvivenciaPacificaService {
       baseURL: apiUrl.VITE_API_URL_SIE,
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + user.token
+        'Authorization': ""
       },
     })
     .catch((error) => {
@@ -105,6 +102,14 @@ class ConvivenciaPacificaService {
     return http.get(`/ueggPcpaConstruccion/${data}`,).catch((error) => {
         return error;
     });
+  }
+
+  findMiembrosComisionConstruccion(data){
+   // const user = JSON.parse(localStorage.getItem('user'));
+    return  http.get(`/listMiembrosComision/${data}`,).catch((error) => {
+        return error;
+    });
+
   }
 
 }

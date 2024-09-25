@@ -25,7 +25,7 @@ class EstudianteEmbarazoService {
       baseURL: apiUrl.VITE_API_URL_SIE,
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + user.token
+        'Authorization': ""
       },
     })
     .catch((error) => {
