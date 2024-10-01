@@ -32,13 +32,13 @@ const form: any = ref({
     reporteNombre1: '',
     reporteNombre2: '',
     reporteNombre3: '',
-    estudianteCodigoRude: '817300812016067',
-    estudianteCedulaIdentidad: '12819171',
+    estudianteCodigoRude: '',
+    estudianteCedulaIdentidad: '',
     estudianteComplemento: ' ',
-    estudiantePaterno: 'ARAMAYO',
-    estudianteMaterno: 'PORTAL',
-    estudianteNombre: 'ALEJANDRA MARIEL',
-    estudianteFechaNacimiento: '22-09-2011',
+    estudiantePaterno: '',
+    estudianteMaterno: '',
+    estudianteNombre: '',
+    estudianteFechaNacimiento: '',
     estudianteEdad: '',
     estudianteGrado: '',
     estudianteNivel: '',
@@ -401,7 +401,7 @@ const validateConfirmForm = () => {
                             <v-col cols="12" md="4" >
                                 <v-select v-model="form.reporteNombre1" :items="personaReporteTipo" item-title="name" item-value="id" label="Reporte 1" return-object></v-select>
                             </v-col>
-
+<!--
                             <v-col cols="12" md="4" >
                                 <v-select v-model="form.reporteNombre2" :items="personaReporteTipo" item-title="name" item-value="id" label="Reporte 2" return-object></v-select>
                             </v-col>
@@ -409,7 +409,7 @@ const validateConfirmForm = () => {
                             <v-col cols="12" md="4" >
                                 <v-select v-model="form.reporteNombre3" :items="personaReporteTipo" item-title="name" item-value="id" label="Reporte 3" return-object></v-select>
                             </v-col>
-                           
+-->                           
                             <v-col cols="12" md="12">
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
                                     <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos de la estudiante embarazada</span>

@@ -254,7 +254,7 @@ const validateForm = () => {
                         <v-row>
                             <v-col cols="12" md="12">                                
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos de embarazo y bajas</span>
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100"></span>
                                 </div>
                             </v-col>
 
@@ -274,20 +274,24 @@ const validateForm = () => {
                                 <v-text-field v-model="form.estudiante" label="Nombres y Apellidos" hide-details required :readonly="findEstudiante" ></v-text-field>
                             </v-col>
 
+                            <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100"></span>
+                            </div>
+
                             <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.embarazoConsensuado" label="¿ El embarazo es resultado de una relación consensuada ?" required></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="6" >
-                                <v-checkbox v-model="form.embarazoAgresion" label="¿ El embarazo es resultado de una agreción sexual ?" required></v-checkbox>
+                                <v-checkbox v-model="form.embarazoAgresion" label="¿ El embarazo es resultado de una agresión sexual ?" required></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" v-if="form.embarazoAgresion">
-                                <v-checkbox v-model="form.reporteCasoDna" label="¿ Se ha reportado el caso de violencia sexual a la DNA u otra instancia ?" required></v-checkbox>
+                                <v-checkbox v-model="form.reporteCasoDna" label="¿ El Director(a) reportó el caso de violencia sexual a la Defensoría u otra instancia ?" required></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" v-if="form.embarazoAgresion">
-                                <v-checkbox v-model="form.embarazoViolacion" label="¿ El embarazo es consecuencia de violación sexual ?" required></v-checkbox>
+                                <v-checkbox v-model="form.embarazoViolacion" label="¿ El Director(a) informó a la adolescente y su familia sobre la sentencia constitucional plurinacional 206/2014 sogre el derecho a la interrupción Legal del embarazo ?" required></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" v-if="form.embarazoAgresion">
@@ -295,11 +299,11 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="6" >
-                                <v-checkbox v-model="form.consultaVictimaViolencia" label="¿ El/La Director(a) consulta a la adolescente si es víctima de algún tipo de violencia ?" required></v-checkbox>
+                                <v-checkbox v-model="form.consultaVictimaViolencia" label="¿ El/La Director(a) identifica que la adolescente embarazada sufre violencia ?" required></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="6" v-if="form.consultaVictimaViolencia">
-                                <v-checkbox v-model="form.consultaVictimaViolenciaReporteDna" label="Si la adolescente que sufre algún tipo de violencia ¿ El/La Director(a) de U.E. refeiere a la DNA ?" required></v-checkbox>
+                                <v-checkbox v-model="form.consultaVictimaViolenciaReporteDna" label="¿ Se ha reportado el caso de violencia a la DNA u otra instancia ?" required></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="12">                                

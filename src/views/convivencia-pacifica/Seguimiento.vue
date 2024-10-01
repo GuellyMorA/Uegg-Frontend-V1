@@ -277,14 +277,14 @@ const reset = () => {
             <v-card elevation="10" class="withbg">
                 <v-card-item>
                     <div class="d-sm-flex align-center justify-space-between pt-sm-2">
-                        <v-card-title class="text-h5">Registro de datos</v-card-title>
+                        <v-card-title class="text-h5">Seguimiento y evaluación del PCPA</v-card-title>
                     </div>
                     <v-form v-model="valid" class="">
                         <v-container>
                         <v-row>
                             <v-col cols="12" md="12">                                
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Riesgo a la violencia</span>
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100"></span> <!--mod RBC-->
                                 </div>
                             </v-col>
                             <v-col cols="12" md="4">
@@ -294,6 +294,13 @@ const reset = () => {
                             <v-col cols="12" md="8" >
                                 <v-text-field v-model="form.unidadEducativa" :counter="10" label="Unidad Educativa" hide-details required :readonly="find"></v-text-field>
                             </v-col>
+
+                            <v-col cols="12" md="12">                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Seguimiento</span>
+                                </div>
+                            </v-col>
+
 
                             <v-col cols="12" md="8" >
                                 Indique cuantas acciones estaban inicialmente planificadas para el año en curso

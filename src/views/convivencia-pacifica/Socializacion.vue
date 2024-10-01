@@ -380,10 +380,10 @@ const reset = () => {
 };
 
 const actividadTipo = [
-    { id: 1, name: 'Carteles' },  
+    //{ id: 1, name: 'Carteles' },  
     { id: 2, name: 'Medios de comunicación interna' },  
     { id: 3, name: 'Redes sociales' },  
-    { id: 4, name: 'Talleres222' },  
+    { id: 4, name: 'Talleres' },  
     { id: 5, name: 'Ferias' },  
     { id: 6, name: 'Otros' }
 ]
@@ -419,22 +419,24 @@ const validateForm = () => {
             <v-card elevation="10" class="withbg">
                 <v-card-item>
                     <div class="d-sm-flex align-center justify-space-between pt-sm-2">
-                        <v-card-title class="text-h5">Modificación a socialización e implementación </v-card-title>
+                        <v-card-title class="text-h5">Socialización e implementación </v-card-title>
                     </div>
                     <v-form v-model="valid" class="">
                         <v-container>
                         <v-row>
-                            <v-col cols="12" md="12">                                
-                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Socialización</span>
-                                </div>
-                            </v-col>
+                            
                             <v-col cols="12" md="4">
                                 <v-text-field v-model="form.sie" :rules="sieRules" :counter="8" label="SIE" required hide-details v-on:keyup="findInstitucionEducativa" :readonly="find && !variusSie"></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="8" >
                                 <v-text-field v-model="form.unidadEducativa" :counter="10" label="Unidad Educativa" hide-details required :readonly="find"></v-text-field>
+                            </v-col>
+
+                            <v-col cols="12" md="12">                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Socialización</span>
+                                </div>
                             </v-col>
 
                             <v-col cols="12" md="12">
@@ -483,12 +485,12 @@ const validateForm = () => {
 
                             <v-col cols="12" md="12">                                
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Actividades para el plan de socialización</span>
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Implementación</span>
                                 </div>
                             </v-col>
 
                             <v-col cols="12" md="12">
-                                Miembros de la comisión de implementación del PCPA ¿ Quiénes conforman la comisión de convivencia pacífica y armónica ?
+                                Miembros de la comisión
                             </v-col>
 
                             <v-col cols="12" md="2" >
@@ -531,8 +533,10 @@ const validateForm = () => {
                                 <v-text-field v-model="form.comisionImplementacionOtroNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
                             </v-col>
 
-                            <v-col cols="12" md="12" >
-                                Actividades del Plan de Convivencia Pacífica y Armónica ejecutadas
+                            <v-col cols="12" md="12">                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Actividades de Socialización del Plan de Convivencia Pacífica y Armónica ejecutadas</span>
+                                </div>
                             </v-col>
 
                             <v-col cols="12" md="2" >

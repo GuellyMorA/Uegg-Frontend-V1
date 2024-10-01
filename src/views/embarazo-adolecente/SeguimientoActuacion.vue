@@ -309,7 +309,7 @@ const validateForm = () => {
                         <v-row>
                             <v-col cols="12" md="12">                                
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos de embarazo y bajas</span>
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100"></span>
                                 </div>
                             </v-col>
                             <v-col cols="12" md="4">
@@ -328,6 +328,12 @@ const validateForm = () => {
                                 <v-text-field v-model="form.estudiante" label="Nombres y Apellidos" hide-details required :readonly="findEstudiante"></v-text-field>
                             </v-col>
 
+                            <v-col cols="12" md="12">                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100"></span>
+                                </div>
+                            </v-col>
+
                             <v-col cols="12" md="6" >
                                 <v-text-field v-model="form.semanaGestacion" type="number" label="Tiempo de gestación al momento de registrar el caso (semanas)" hide-details ></v-text-field>
                             </v-col>
@@ -335,17 +341,9 @@ const validateForm = () => {
                             <v-col cols="12" md="6" >
                                 <v-text-field v-model="form.numeroEmbarazo" type="number" label="Número de embarazos (cuántas veces estuvo embarazada incluyendo este embarazo)" hide-details ></v-text-field>
                             </v-col>
-                            
-                            <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.fechaEstimadaParto" label="Fecha estimada de parto"  @input="onDateInput1" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
-                            </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-checkbox v-model="form.recibeControlPrenatal" label="¿ Recibe control prenatal ?" required></v-checkbox>
-                            </v-col>
-
-                            <v-col cols="12" md="4" >
-                                <v-checkbox v-model="form.requiereBajaMedica" label="¿ Requiere baja médica ?" required></v-checkbox>
+                                <v-checkbox v-model="form.recibeControlPrenatal" label="¿ Recibe control prenatal ?" required></v-checkbox> <!-- RBC-->
                             </v-col>
 
                             <v-col cols="12" md="4" >
@@ -361,6 +359,10 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="4" >
+                                <v-text-field v-model="form.fechaEstimadaParto" label="Fecha estimada de parto"  @input="onDateInput1" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
+                            </v-col>
+                          
+                            <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.fechaBajaPrenatal" label="Fecha de baja prenatal"  @input="onDateInput2" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
                             </v-col>
 
@@ -371,6 +373,17 @@ const validateForm = () => {
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.fechaRetorno" label="Fecha efectiva de retorno a la U.E. de la baja postnatal"  @input="onDateInput4" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
                             </v-col>
+                            
+                            <v-col cols="12" md="4" >
+                                <v-checkbox v-model="form.requiereBajaMedica" label="¿ Número de días con baja médica ?" required></v-checkbox>
+                            </v-col>
+
+                            <v-col cols="12" md="4" >
+                                <v-checkbox v-model="form.nacidoVivo" label="¿ El embarazo concluyó con nacido vivo/a ?" required></v-checkbox>
+                            </v-col>
+
+
+                      
 
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.edadProgenitor" type="number" label="Edad del progenitor (años)" hide-details ></v-text-field>
@@ -380,26 +393,26 @@ const validateForm = () => {
                                 <v-checkbox v-model="form.progenitorMismaUnidadEducativa" label="El progenitor del bebe ¿ Es estudiante de la U.E. ?" required></v-checkbox>
                             </v-col>
 
-                            <v-col cols="12" md="4" >
-                                <v-checkbox v-model="form.nacidoVivo" label="¿ El embarazo concluyó con nacido vivo/a ?" required></v-checkbox>
-                            </v-col>
+
 
                             <v-col cols="12" md="4" >
                                 <v-checkbox v-model="form.progenitorConoceEmbarazo" label="Los progenitores/tutores ¿ Están al tanto del embarazo ?" required></v-checkbox>
                             </v-col>
 
-                            <v-col cols="12" md="4" >
+       <!--                     <v-col cols="12" md="4" >
                                 <v-checkbox v-model="form.bajaMedica" label="¿ Baja médica ?" required></v-checkbox>
-                            </v-col>
+                            </v-col>    RBC-->
 
                             <v-col cols="12" md="4" >
-                                <v-checkbox v-model="form.permisoControlPrenatal" label="¿ Permiso para controles prenatales ?" required></v-checkbox>
+                                <v-checkbox v-model="form.permisoControlPrenatal" label="¿ Número de dias con permiso para controles pre y postnata  ?" required></v-checkbox> <!--mod tipo tipo de dato RBC-->
                             </v-col>
 
-                            <v-col cols="12" md="12" >
-                                Baja prenatal y postnatal
+                            <v-col cols="12" md="12">                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Baja prenatal y postnatal</span>
+                                </div>
                             </v-col>
-
+                        
                             <v-col cols="12" md="6" >
                                 <v-text-field v-model="form.fechaInicioBajaPrenatal" label="Inicio de baja prenatal"  @input="onDateInput5" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
                             </v-col>
