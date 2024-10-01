@@ -44,7 +44,7 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                     </div>
                     <v-row>
                         <v-col cols="12" sm="12">
-                            <div class="text-subtitle-1 text-grey100 pb-1" data-v-81e7cbfb="">Situación de riesgo<br><br></div>
+                            <div class="text-subtitle-1 text-grey100 pb-1" data-v-81e7cbfb="">Protección a la adolescente embarazada<br><br></div>
                             <v-btn rounded="pill" to="/embarazo/adolecente/seguimiento/situacion" color="primary" class="v-btn--size-large v-btn--variant-elevated mt-4 mb-2 px-7">Ingresar</v-btn>
                         </v-col>
                     </v-row>
@@ -68,6 +68,7 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                 <img src="@/assets/school-d037249b.png" class="bg-img-1 mt-sm-0 mt-sm-n10" data-v-81e7cbfb="">
             </v-card>
         </v-col>
+      
         <v-col cols="12" md="12"> 
             <UiParentCard title="Herramientas "> 
                 <div class=""><p class="text-body-1">Normativa</p></div>
@@ -76,7 +77,7 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                 <div class=""><p class="text-body-1">Formulario de denuncia</p></div>
                 <div class=""><p class="text-body-1">Constancia de permiso</p></div>
                 <div class=""><p class="text-body-1">Constancia de cumplimiento de adecuaciones curriculares</p></div>
-                <!--
+                
                 <div class="v-col-sm-6 v-col-lg-3 v-col-6">
                     <div class="v-card v-theme--BLUE_THEME v-card--density-default elevation-10 rounded-xl v-card--variant-elevated overflow-visible" data-v-81e7cbfb="">                       
                         <div class="v-card-text position-relative pb-5" data-v-81e7cbfb="">
@@ -91,8 +92,8 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                         <img src="@/assets/school-d037249b.png" class="bg-img-1 mt-sm-0 mt-sm-n10" data-v-81e7cbfb=""><span class="v-card__underlay"></span>
                     </div>
                 </div>
-                -->
+                
             </UiParentCard>
         </v-col>
-    </v-row>
+     </v-row>
 </template>

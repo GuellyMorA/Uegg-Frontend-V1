@@ -855,8 +855,11 @@ const validateForm = () => {
                                 <v-text-field v-model="form.comisionNombre" label="Nombre" hide-details required></v-text-field>
                             </v-col> -->
 
-                            <v-col cols="12" md="12">
-                                Miembros de la comisión de construcción del PCPA
+                            <v-col cols="12" md="12" >
+                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Miembros de la comisión de construcción del PCPA</span>
+                                </div>
                             </v-col>
 
                             <v-col cols="12" md="2" >
@@ -900,7 +903,9 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="12" >
-                                Actividades para promover la convivencia pacífica
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Temas que aborda el Plan de Convivencia Pacífica y Armónica</span>
+                                </div>
                             </v-col>
 
                             <v-col cols="12" md="6" >
@@ -942,10 +947,10 @@ const validateForm = () => {
                                 <v-checkbox v-model="form.temaRemision" label="Lineamientos para la remisión de informes sobre casos de violencia" required></v-checkbox>
                             </v-col> -->
 
-                            <v-col cols="12" md="6" >
+<!--                            <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.temaTaller" label="Programación de talleres de capacitación" required></v-checkbox>
                             </v-col>
-
+ //mod RBC                       -->
                             <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.temaPromover" label="Actividades para promover la convivencia pacífica" required></v-checkbox>
                                 <v-row class="pl-10 secondarybg" v-if="form.temaPromover">
@@ -963,13 +968,13 @@ const validateForm = () => {
                                 </v-row>
                             </v-col>
 
-                            <v-col cols="12" md="6" >
+<!--                           <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.temaSeguimiento" label="Plan de seguimiento y evaluación" required></v-checkbox>
                             </v-col>
-
+mod RBC                        -->
                             <v-col cols="12" md="12">
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Aprobación del PCPA</span>
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Miembros de la comisión que aprueba el PCPA</span> <!-- Modificación RBC-->
                                 </div>
                             </v-col>
 
@@ -1027,7 +1032,7 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="6" >
-                                <v-text-field v-model="form.vigenciaAprobacion" label="Tiempo de vigencia" type="number"  hide-details required></v-text-field>
+                                <v-text-field v-model="form.vigenciaAprobacion" label="Tiempo de vigencia (1 a 3 años)" type="number" @input="onDateInput" hide-details required></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12">
