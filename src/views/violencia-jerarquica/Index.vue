@@ -12,22 +12,6 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                     </div>
                     <v-row>
                         <v-col cols="12" sm="12">
-                            <div class="text-subtitle-1 text-grey100 pb-1" data-v-81e7cbfb="">Caso de violencia<br><br></div>
-                            <v-btn rounded="pill" to="/violencia/jerarquica/registro/caso" color="primary" class="v-btn--size-large v-btn--variant-elevated mt-4 mb-2 px-7">Ingresar</v-btn>
-                        </v-col>
-                    </v-row>
-                </v-card-item>
-                <img src="@/assets/school-d037249b.png" class="bg-img-1 mt-sm-0 mt-sm-n10" data-v-81e7cbfb="">
-            </v-card>
-        </v-col>
-        <v-col cols="12" lg="3" sm="6">
-            <v-card elevation="10" class="withbg">
-                <v-card-item>
-                    <div class="d-sm-flex align-center justify-space-between pt-sm-2">
-                        <v-card-title class="text-h5">Registro</v-card-title>
-                    </div>
-                    <v-row>
-                        <v-col cols="12" sm="12">
                             <div class="text-subtitle-1 text-grey100 pb-1" data-v-81e7cbfb="">Víctima<br><br></div>
                             <v-btn rounded="pill" to="/violencia/jerarquica/registro/victima" color="primary" class="v-btn--size-large v-btn--variant-elevated mt-4 mb-2 px-7">Ingresar</v-btn>
                         </v-col>
@@ -52,6 +36,22 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                 <img src="@/assets/school-d037249b.png" class="bg-img-1 mt-sm-0 mt-sm-n10" data-v-81e7cbfb="">
             </v-card>
         </v-col>  
+        <v-col cols="12" lg="3" sm="6">
+            <v-card elevation="10" class="withbg">
+                <v-card-item>
+                    <div class="d-sm-flex align-center justify-space-between pt-sm-2">
+                        <v-card-title class="text-h5">Registro</v-card-title>
+                    </div>
+                    <v-row>
+                        <v-col cols="12" sm="12">
+                            <div class="text-subtitle-1 text-grey100 pb-1" data-v-81e7cbfb="">Caso de violencia<br><br></div>
+                            <v-btn rounded="pill" to="/violencia/jerarquica/registro/caso" color="primary" class="v-btn--size-large v-btn--variant-elevated mt-4 mb-2 px-7">Ingresar</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card-item>
+                <img src="@/assets/school-d037249b.png" class="bg-img-1 mt-sm-0 mt-sm-n10" data-v-81e7cbfb="">
+            </v-card>
+        </v-col>
         <v-col cols="12" lg="3" sm="6">
             <v-card elevation="10" class="withbg">
                 <v-card-item>

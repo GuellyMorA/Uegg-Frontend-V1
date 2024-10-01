@@ -111,37 +111,37 @@ const save = async () => {
     // var dateParts = (form.value.fechaNacimiento).split("-");
      
 
-    const validaCaso = await ViolenciaJerarquica.findCaso(form.value.numeroCaso).then((res) => {
-        console.log('res', res);
-        if(res.status === 200){
-            if(res.data.length > 0) {
-                toast.info('caso validado', {
-                    autoClose: 3000,
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-                caso.value = res.data[0];
-                return true;
-            } else {
-                toast.error('caso no validado', {
-                    autoClose: 3000,
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-                return false;
-            }
-        } else {
-            toast.error('caso no validado', {
-                autoClose: 3000,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-            return false;
-        }
-    });
+    // const validaCaso = await ViolenciaJerarquica.findCaso(form.value.numeroCaso).then((res) => {
+    //     console.log('res', res);
+    //     if(res.status === 200){
+    //         if(res.data.length > 0) {
+    //             toast.info('caso validado', {
+    //                 autoClose: 3000,
+    //                 position: toast.POSITION.TOP_RIGHT,
+    //             });
+    //             caso.value = res.data[0];
+    //             return true;
+    //         } else {
+    //             toast.error('caso no validado', {
+    //                 autoClose: 3000,
+    //                 position: toast.POSITION.TOP_RIGHT,
+    //             });
+    //             return false;
+    //         }
+    //     } else {
+    //         toast.error('caso no validado', {
+    //             autoClose: 3000,
+    //             position: toast.POSITION.TOP_RIGHT,
+    //         });
+    //         return false;
+    //     }
+    // });
 
-    console.log('validaCaso', validaCaso);
+    // console.log('validaCaso', validaCaso);
 
-    if(!validaCaso){
-        return false;
-    }
+    // if(!validaCaso){
+    //     return false;
+    // }
 
     const validaEstudiante = await EstudianteEmbarazo.findEstudiante(form.value).then((res) => {
         console.log('res', res);
@@ -189,7 +189,7 @@ const save = async () => {
     var dateParts = (form.value.fechaNacimiento || '').split("/");
 
     const payload = {    
-        uegg_violencia_caso_agresor_id: caso.value.id,
+        uegg_violencia_caso_agresor_id: null, //caso.value.id,
         cod_ue: institucionEducativa.value.institucioneducativa_id,
         desc_ue: institucionEducativa.value.institucioneducativa,
         cod_sie: institucionEducativa.value.institucioneducativa_id,
@@ -366,7 +366,7 @@ const viewItem = (item: any) => {
 const headers = [
     { title: 'S.I.E.', align: 'start', sortable: false, key: 'cod_ue' },
     { title: 'Unidad Educativa', align: 'end', key: 'desc_ue' },
-    { title: 'RDA', align: 'end', key: 'cod_rda_director' },
+    { title: 'Director', align: 'end', key: 'cod_rda_director' },
     { title: 'RUDE', align: 'end', key: 'cod_rude' },
     { title: 'Nombre', align: 'end', key: 'nombres_victima' },
     { title: 'Paterno', align: 'end', key: 'apellido_pat_victima' },
@@ -389,14 +389,14 @@ const plants = [
 const validateForm = () => {
     validationErrors.value = {};
 
-    if (!form.value.numeroCaso) validationErrors.value['numeroCaso'] = true;
-    else delete validationErrors.value['numeroCaso'];
+    // if (!form.value.numeroCaso) validationErrors.value['numeroCaso'] = true;
+    // else delete validationErrors.value['numeroCaso'];
 
     // if (!form.value.fechaAgresion) validationErrors.value['fechaAgresion'] = true;
     // else delete validationErrors.value['fechaAgresion'];
 
-    if (!form.value.cantidadVictima) validationErrors.value['cantidadVictima'] = true;
-    else delete validationErrors.value['cantidadVictima'];
+    // if (!form.value.cantidadVictima) validationErrors.value['cantidadVictima'] = true;
+    // else delete validationErrors.value['cantidadVictima'];
 
     if (!form.value.numeroVictima) validationErrors.value['numeroVictima'] = true;
     else delete validationErrors.value['numeroVictima'];
@@ -464,15 +464,15 @@ const validateConfirmForm = () => {
                     <v-form v-model="valid" class="">
                         <v-container>
                         <v-row>
-                            <v-col cols="12" md="4">
+                            <v-col cols="12" md="12">
                                 <v-text-field v-model="formSearch.codigoRude" density="compact" variant="solo" label="Código RUDE" append-inner-icon="mdi-magnify" single-line hide-details  @click:append-inner="searchVictimaCodigoRude" ></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4">
+                            <!-- <v-col cols="12" md="4">
                                 <v-text-field v-model="formSearch.codigoRda" density="compact" variant="solo" label="Código RDA" append-inner-icon="mdi-magnify" single-line hide-details  @click:append-inner="searchVictimaCodigoRda" ></v-text-field>
                             </v-col>
                             <v-col cols="12" md="4">
                                 <v-text-field v-model="formSearch.usuario" density="compact" variant="solo" label="Usuario" append-inner-icon="mdi-magnify" single-line hide-details  @click:append-inner="searchVictimaUsuario" ></v-text-field>
-                            </v-col>
+                            </v-col> -->
                         </v-row>
                         </v-container>
                     </v-form>
@@ -511,8 +511,7 @@ const validateConfirmForm = () => {
                                     <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos de la víctima</span>
                                 </div>
                             </v-col>
-                            <v-col cols="12" md="4">
-                                <!-- <v-text-field v-model="form.numeroCaso" :rules="sieRules" :counter="8" label="Número de caso" required hide-details ></v-text-field> -->
+                            <!-- <v-col cols="12" md="4">
                                 <v-text-field v-model="form.numeroCaso" label="Número de caso" append-inner-icon="mdi-magnify" hide-details  @click:append-inner="searchCaso" ></v-text-field>
                            </v-col>
 
@@ -522,7 +521,7 @@ const validateConfirmForm = () => {
                             
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.cantidadVictima" type="number" label="Número de víctimas" hide-details required></v-text-field>
-                            </v-col>
+                            </v-col> -->
                             
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.numeroVictima" type="number" label="Víctima nro." hide-details required></v-text-field>

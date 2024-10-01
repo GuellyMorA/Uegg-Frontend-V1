@@ -45,11 +45,18 @@ const form: any = ref({
     violenciaSexualDescripcion: '',
     violenciaSexualGravedad: null,
     violenciaSexualValoracion: null,
+    victimaId:null,
+    victimaCodigoRude:null,
+    victimaNombre:null,
+    agresorId:null,
+    agresorCodigoRda:null,
+    agresorNombre:null
 });
 
 onMounted(async() => {
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
+        form.value.numeroCaso = crearCodigoUnico(10);
     }
 }); 
 
@@ -108,14 +115,16 @@ const save = async () => {
     console.log("save", save);
 
     // res.data.id
+    var dateParts1 = (form.value.comunicacionTutorFecha || '').split("/");
 
     const payload1 = {    
         id_violencia_caso_agresor: save.data.id,
+        id_violencia_victima: form.value.victimaId,
+        id_violencia_agresor: form.value.agresorId,
         comunicacion_tutores: form.value.comunicacionTutor,
-        desc_hecho: form.value.descripcionBreve,
-    
+        desc_hecho: form.value.descripcionBreve,    
         nombre_tutores: form.value.comunicacionTutorNombre,
-        fec_com: form.value.comunicacionTutorFecha,
+        fec_com: new Date(dateParts1[2] +'/'+ dateParts1[1] +'/'+ dateParts1[0]),
         violencia_fis: form.value.violenciaFisica,
         violencia_val_fis: form.value.violenciaFisicaValoracion,
         desc_hecho_fis: form.value.violenciaFisicaDescripcion,
@@ -178,6 +187,12 @@ const reset = () => {
         violenciaSexualDescripcion: '',
         violenciaSexualGravedad: null,
         violenciaSexualValoracion: null,
+        victimaId:null,
+        victimaCodigoRude:null,
+        victimaNombre:null,
+        agresorId:null,
+        agresorCodigoRda:null,
+        agresorNombre:null
     };
     caso.value = null;
     dialogSave.value = false;
@@ -324,6 +339,14 @@ const plants = [
 const validateForm = () => {
     validationErrors.value = {};
 
+    
+
+    if (!form.value.victimaId || !form.value.victimaCodigoRude || !form.value.victimaNombre) validationErrors.value['victima'] = true;
+    else delete validationErrors.value['victima'];
+
+    if (!form.value.agresorId || !form.value.agresorCodigoRda || !form.value.agresorNombre) validationErrors.value['agresor'] = true;
+    else delete validationErrors.value['agresor'];
+
     if (!form.value.numeroCaso) validationErrors.value['numeroCaso'] = true;
     else delete validationErrors.value['numeroCaso'];
 
@@ -361,6 +384,66 @@ const validateForm = () => {
     else delete validationErrors.value['violenciaSexualValoracion'];
 
     return !Object.keys(validationErrors.value).length;
+};
+
+const searchAgresor = async () => {
+    console.log(form.value);
+    if (!form.value.agresorCodigoRda){
+        toast.error('Debe ingresar el Código RDA', {
+            autoClose: 3000,
+            position: toast.POSITION.TOP_RIGHT,
+        });
+    }
+    const res = await ViolenciaJerarquica.findAgresorRude(form.value.agresorCodigoRda);
+    console.log("res", res);
+    if(res.status === 200 && res.data && res.data.length > 0){
+        form.value.agresorId = res.data[0].id;
+        form.value.agresorNombre = res.data[0].nombres_agresor +' '+ res.data[0].apellido_pat_agresor +' '+ res.data[0].apellido_mat_agresor; 
+        console.log(res.data);
+    } else {
+        form.value.agresorId = null;
+        form.value.agresorNombre = null;
+        toast.error('Debe se encontro al agresor', {
+            autoClose: 3000,
+            position: toast.POSITION.TOP_RIGHT,
+        });
+    }
+};
+
+const searchVictima = async () => {
+    console.log(form.value);
+    if (!form.value.victimaCodigoRude){
+        toast.error('Debe ingresar el Código RUDE', {
+            autoClose: 3000,
+            position: toast.POSITION.TOP_RIGHT,
+        });
+    }
+    const res = await ViolenciaJerarquica.findVictimaRude(form.value.victimaCodigoRude);
+    console.log("res", res);
+    if(res.status === 200 && res.data && res.data.length > 0){
+        form.value.victimaId = res.data[0].id;
+        form.value.victimaNombre = res.data[0].nombres_victima +' '+ res.data[0].apellido_pat_victima +' '+ res.data[0].apellido_mat_victima; 
+        console.log(res.data);
+    } else {
+        form.value.victimaId = null;
+        form.value.victimaNombre = null;
+        toast.error('No se encontro a la victima', {
+            autoClose: 3000,
+            position: toast.POSITION.TOP_RIGHT,
+        });
+    }
+};
+
+const crearCodigoUnico = (longitud: number) => {
+    // const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const caracteres = '0123456789';
+    let resultado = '';
+    for (let i = 0; i < longitud; i++) {
+        const indice = Math.floor(Math.random() * caracteres.length);
+        resultado += caracteres.charAt(indice);
+    }
+    console.log(resultado);
+    return resultado;
 };
 
 </script>
@@ -417,13 +500,43 @@ const validateForm = () => {
                     <v-form v-model="valid" class="">
                         <v-container>
                         <v-row>
+                            
                             <v-col cols="12" md="12">                                
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos de la víctima</span>
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos de la victima</span>
+                                </div>
+                            </v-col>
+
+                            <v-col cols="12" md="4">
+                                <v-text-field v-model="form.victimaCodigoRude" label="Código RUDE" append-inner-icon="mdi-magnify" hide-details @click:append-inner="searchVictima" ></v-text-field>
+                            </v-col>
+
+                            <v-col cols="12" md="8" >
+                                <v-text-field v-model="form.victimaNombre" label="Nombre y Apellido" @input="onDateInput1" placeholder="DD/MM/AAAA" hide-details required :readonly="true"></v-text-field>
+                            </v-col>
+
+                            <v-col cols="12" md="12">                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos del agresor</span>
+                                </div>
+                            </v-col>                            
+
+                            <v-col cols="12" md="4">
+                                <v-text-field v-model="form.agresorCodigoRda" label="Código RDA" append-inner-icon="mdi-magnify" hide-details @click:append-inner="searchAgresor" ></v-text-field>
+                            </v-col>
+
+                            <v-col cols="12" md="8" >
+                                <v-text-field v-model="form.agresorNombre" label="Nombre y Apellido" @input="onDateInput1" placeholder="DD/MM/AAAA" hide-details required :readonly="true"></v-text-field>
+                            </v-col>
+
+
+                            <v-col cols="12" md="12">                                
+                                <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos del caso</span>
                                 </div>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-text-field v-model="form.numeroCaso" :rules="sieRules" :counter="8" label="Número de caso" required hide-details></v-text-field>
+                                <v-text-field v-model="form.numeroCaso" :rules="sieRules" :counter="10" label="Número de caso" required hide-details></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="4" >

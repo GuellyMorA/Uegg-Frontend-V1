@@ -80,37 +80,37 @@ const save = async () => {
         return false;
     }
 
-    const validaCaso = await ViolenciaJerarquica.findCaso(form.value.numeroCaso).then((res) => {
-        console.log('res', res);
-        if(res.status === 200){
-            if(res.data.length > 0) {
-                toast.info('caso validado', {
-                    autoClose: 3000,
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-                caso.value = res.data[0];
-                return true;
-            } else {
-                toast.error('caso no validado', {
-                    autoClose: 3000,
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-                return false;
-            }
-        } else {
-            toast.error('caso no validado', {
-                autoClose: 3000,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-            return false;
-        }
-    });
+    // const validaCaso = await ViolenciaJerarquica.findCaso(form.value.numeroCaso).then((res) => {
+    //     console.log('res', res);
+    //     if(res.status === 200){
+    //         if(res.data.length > 0) {
+    //             toast.info('caso validado', {
+    //                 autoClose: 3000,
+    //                 position: toast.POSITION.TOP_RIGHT,
+    //             });
+    //             caso.value = res.data[0];
+    //             return true;
+    //         } else {
+    //             toast.error('caso no validado', {
+    //                 autoClose: 3000,
+    //                 position: toast.POSITION.TOP_RIGHT,
+    //             });
+    //             return false;
+    //         }
+    //     } else {
+    //         toast.error('caso no validado', {
+    //             autoClose: 3000,
+    //             position: toast.POSITION.TOP_RIGHT,
+    //         });
+    //         return false;
+    //     }
+    // });
 
-    console.log('validaCaso', validaCaso);
+    // console.log('validaCaso', validaCaso);
 
-    if(!validaCaso){
-        return false;
-    }
+    // if(!validaCaso){
+    //     return false;
+    // }
 
     // const validaPersona = await ViolenciaJerarquica.findPersonal(form.value).then((res) => {
     //     console.log('res', res);
@@ -150,7 +150,7 @@ const save = async () => {
     // // }
 
     const payload = {    
-        id_violencia_caso_agresor: caso.value.id,
+        id_violencia_caso_agresor: null, //caso.value.id,
         cod_rda: form.value.codigoRda,
         num_ci: form.value.carnetIdentidad,
         num_comp: form.value.numeroAgresor,
@@ -268,7 +268,7 @@ const searchVictimaCodigoRda = async () => {
             position: toast.POSITION.TOP_RIGHT,
         });
     }
-    const res = await ViolenciaJerarquica.findAgresorRda(formSearch.value.codigoRda);
+    const res = await ViolenciaJerarquica.findAgresorRude(formSearch.value.codigoRda);
     console.log("res", res);
     if(res.status === 200 && res.data && res.data.length > 0){
         list.value = res.data;
@@ -285,14 +285,33 @@ const searchVictimaUsuario = () => {
 
 const viewItem = (item: any) => {
     console.log(item);
+    victima.value = item;
+    form.value.codigoRda = item.cod_rda;
+    form.value.carnetIdentidad = item.num_ci || '';
+    form.value.complemento = item.num_comp || '';
+    form.value.paterno = item.apellido_pat_agresor;
+    form.value.materno = item.apellido_mat_agresor;
+    form.value.nombre = item.nombres_agresor;
+    form.value.cargo = item.cargo_ocupa;
+    form.value.nivel = item.cargo_ocupa;
+    form.value.celular = item.celular_contacto;
+    form.value.correo = item.correo_electronico;
+    form.value.direccionActual = item.dir_actual;
+
+    const dateParts = (item.fec_nac || '').split("-");
+    form.value.fechaNacimiento = dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0];
+    // form.value.fechaNacimiento = item.fec_nac;
+    form.value.sexo = item.sexo;
+    form.value.genero = item.genero;
 };
 
 const headers = [
-    { title: 'Plant', align: 'start', sortable: false, key: 'name' },
-    { title: 'Light', align: 'end', key: 'light' },
-    { title: 'Height', align: 'end', key: 'height' },
-    { title: 'Pet Friendly', align: 'end', key: 'petFriendly' },
-    { title: 'Price ($)', align: 'end', key: 'price' },
+    { title: 'Cargo', align: 'end', key: 'cargo_ocupa' },
+    { title: 'RDA', align: 'end', key: 'cod_rda' },
+    { title: 'Nombre', align: 'end', key: 'nombres_agresor' },
+    { title: 'Paterno', align: 'end', key: 'apellido_pat_agresor' },
+    { title: 'Materno', align: 'end', key: 'apellido_mat_agresor' },
+    { title: 'Fecha de Nacimiento', align: 'end', key: 'fec_nac' },
     { title: 'Actions', key: 'actions', sortable: false, align:'center' },
 ];
 
@@ -358,14 +377,14 @@ const plants = [
 const validateForm = () => {
     validationErrors.value = {};
 
-    if (!form.value.numeroCaso) validationErrors.value['numeroCaso'] = true;
-    else delete validationErrors.value['numeroCaso'];
+    // if (!form.value.numeroCaso) validationErrors.value['numeroCaso'] = true;
+    // else delete validationErrors.value['numeroCaso'];
 
-    if (!form.value.fechaAgresion) validationErrors.value['fechaAgresion'] = true;
-    else delete validationErrors.value['fechaAgresion'];
+    // if (!form.value.fechaAgresion) validationErrors.value['fechaAgresion'] = true;
+    // else delete validationErrors.value['fechaAgresion'];
 
-    if (!form.value.cantidadAgresor) validationErrors.value['cantidadVictima'] = true;
-    else delete validationErrors.value['cantidadVictima'];
+    // if (!form.value.cantidadAgresor) validationErrors.value['cantidadVictima'] = true;
+    // else delete validationErrors.value['cantidadVictima'];
 
     // if (!form.value.numeroAgresor) validationErrors.value['numeroVictima'] = true;
     // else delete validationErrors.value['numeroVictima'];
@@ -440,15 +459,15 @@ const searchCaso = async () => {
                     <v-form v-model="valid" class="">
                         <v-container>
                         <v-row>
-                            <v-col cols="12" md="4">
+                            <!-- <v-col cols="12" md="4">
                                 <v-text-field v-model="formSearch.codigoRude" density="compact" variant="solo" label="Código RUDE" append-inner-icon="mdi-magnify" single-line hide-details  @click:append-inner="searchVictimaCodigoRude" ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="4">
+                            </v-col> -->
+                            <v-col cols="12" md="12">
                                 <v-text-field v-model="formSearch.codigoRda" density="compact" variant="solo" label="Código RDA" append-inner-icon="mdi-magnify" single-line hide-details  @click:append-inner="searchVictimaCodigoRda" ></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4">
+                            <!-- <v-col cols="12" md="4">
                                 <v-text-field v-model="formSearch.usuario" density="compact" variant="solo" label="Usuario" append-inner-icon="mdi-magnify" single-line hide-details  @click:append-inner="searchVictimaUsuario" ></v-text-field>
-                            </v-col>
+                            </v-col> -->
                         </v-row>
                         </v-container>
                     </v-form>
@@ -487,7 +506,7 @@ const searchCaso = async () => {
                                     <span class="bg-surface position-relative text-subtitle-1 text-grey100">Datos de la víctima</span>
                                 </div>
                             </v-col>
-                            <v-col cols="12" md="4">
+                            <!-- <v-col cols="12" md="4">
                                 <v-text-field v-model="form.numeroCaso" label="Número de caso" append-inner-icon="mdi-magnify" hide-details @click:append-inner="searchCaso" ></v-text-field>
                             </v-col>
 
@@ -497,7 +516,7 @@ const searchCaso = async () => {
                             
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.cantidadAgresor" type="number" label="Número de agresores" hide-details required></v-text-field>
-                            </v-col>
+                            </v-col> -->
                             
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.numeroAgresor" type="number" label="Agresor Nro." hide-details required></v-text-field>
