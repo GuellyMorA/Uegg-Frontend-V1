@@ -23,6 +23,7 @@ const submit = async (event: any) => {
             console.log('res', res.data);
             if (res.data.codigo_sie) {
                 localStorage.setItem('user', JSON.stringify(res.data));
+                localStorage.setItem('username', form.value.username);
                 router.push('/');
                 return res;
             } else {
@@ -42,6 +43,7 @@ const submit = async (event: any) => {
                 position: toast.POSITION.TOP_RIGHT
             });
             localStorage.removeItem('user');
+            localStorage.removeItem('username');
             return res;
         }
     });

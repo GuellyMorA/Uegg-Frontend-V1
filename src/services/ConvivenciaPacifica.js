@@ -3,6 +3,7 @@ import http2 from 'axios';
 const apiUrl = import.meta.env;
 
 class ConvivenciaPacificaService {
+
   create(data){
     return http.post(`/ueggPcpaUnidadEducativa`, data).catch((error) => {
         return error.response;
@@ -17,6 +18,18 @@ class ConvivenciaPacificaService {
 
   createMiembroComision(data){
     return http.post(`/ueggPcpaMiembroComision`, data).catch((error) => {
+        return error;
+    });
+  } 
+
+  deleteConstruccion(id){
+    return http.put(`/ueggPcpaConstruccionDel/${id}`).catch((error) => {
+        return error;
+    });
+  } 
+
+  deleteMiembroComision(id){
+    return http.put(`/ueggPcpaMiembroComisionDel/${id}`).catch((error) => {
         return error;
     });
   } 
@@ -64,7 +77,7 @@ class ConvivenciaPacificaService {
 
   findInstitucionEducativa(id){
     
-    const user = JSON.parse(localStorage.getItem('user'));
+    //const user = JSON.parse(localStorage.getItem('user'));
     return http2({
       method:'get',
       url: `/institucioneducativa/${id}`,
@@ -111,6 +124,26 @@ class ConvivenciaPacificaService {
     });
 
   }
+
+/*
+dateToString (date, timeZone, dialect) {
+    if (moment.tz.zone(timeZone)) {
+      date = moment(date).tz(timeZone);
+    } else {
+      date = moment(date).utcOffset(timeZone);
+    }
+  
+    if (dialect === 'mysql' || dialect === 'mariadb') {
+      return date.format('YYYY-MM-DD HH:mm:ss');
+    } else {
+      // ZZ here means current timezone, _not_ UTC
+      return date.format('YYYY-MM-DD HH:mm:ss.SSS Z'); /// <-- Executed for MSSQL - includes offset
+    }
+  };
+*/
+
+
+
 
 }
 

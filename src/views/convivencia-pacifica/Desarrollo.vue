@@ -24,7 +24,7 @@ const institucionEducativa = ref();
 const temaDisciplinario = ref();
 
 const miembrosComisionConstruccion = ref();
-
+const dateToString = ref();
 
 
 const form: any = ref({
@@ -51,6 +51,8 @@ const form: any = ref({
     comisionSocializacionMaestroNombre: '',
     comisionSocializacionPadreNombre: '',
     comisionSocializacionOtroNombre: '',
+    comisionSocializacionIdConstruccion: '',
+    comisionSocializacionIdMiembro: '',
     temaDerecho: '',
     temaNorma: '',
     temaDisciplinario: '',
@@ -86,7 +88,9 @@ const form: any = ref({
     comisionAprobacionMaestroNombre: '',
     comisionAprobacionPadreNombre: '',
     comisionAprobacionOtroNombre: '',
-    fechaAprobacion: '',
+    comisionAprobacionIdConstruccion: '',
+    comisionAprobacionIdMiembro: '',
+    fechaAprobacion: new Date(),
     vigenciaAprobacion: '',
     validado: false
 });
@@ -102,14 +106,19 @@ const sieRules = [
     },
 ];
 
+let username: string | null ;
+
+
 onMounted(async() => {
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
         form.value.sie = user.codigo_sie;
         findInstitucionEducativa();
         findMiembrosComisionConstruccion();
-
-
+        username = localStorage.getItem('username') ;
+        form.value.vigenciaAprobacion=99;
+        form.value.fecha='01/01/2027';
+        form.value.fechaAprobacion='01/01/2028';
     }
 }); 
 
@@ -120,7 +129,7 @@ const findInstitucionEducativa = async () => {
         console.log("res", res);
         if(res.data && res.data.length > 0){
             form.value.departamentoId = res.data[0].departamento_codigo;
-            form.value.departamentoNombre = 'ronal'; //res.data[0].departamento;
+            form.value.departamentoNombre = res.data[0].departamento;
             form.value.municipioId = res.data[0].municipio_codigo;  
             form.value.municipioNombre = res.data[0].municipio;
             form.value.unidadEducativa = res.data[0].institucioneducativa;
@@ -148,24 +157,79 @@ const findInstitucionEducativa = async () => {
 const findMiembrosComisionConstruccion = async () => {
     console.log(form.value.sie);
     if(String(form.value.sie).length === 8){
-        const res = await ConvivenciaPacifica.findMiembrosComisionConstruccion(form.value.sie);
-        console.log("res", res);
-        if(res.data && res.data.length > 0){
-          //  form.value.comisionSocializacionEstudiante= res.data[0].  ;       
-            form.value.comisionSocializacionEstudianteNombre= res.data[0].nombres_miembro ; 
-         //   form.value.comisionSocializacionDirector= res.data[0].  ;         
-            form.value.comisionSocializacionDirectorNombre= res.data[0].nombres_director  ;   
-         //   form.value.comisionSocializacionMaestro= res.data[0].  ;          
-            form.value.comisionSocializacionMaestroNombre= res.data[0].nombres_miembro  ;    
-         //   form.value.comisionSocializacionPadre= res.data[0].  ;            
-            form.value.comisionSocializacionPadreNombre= res.data[0].nombres_miembro  ;      
-         //   form.value.comisionSocializacionOtro= res.data[0].  ;             
-            form.value.comisionSocializacionOtroNombre= res.data[0].nombres_miembro  ;    
-
-
-            miembrosComisionConstruccion.value = res.data[0];
-            console.log(res.data[0], form.value.sie.length, res);
+    const res = await ConvivenciaPacifica.findMiembrosComisionConstruccion(form.value.sie);
+    console.log("res", res);
+    res.data.map((data: {  id_comision_tipo: number; id_miembro_tipo: number; 
+                        }, index:  number) => {
+                   
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===1 && data.id_comision_tipo===1  ){// estudiante
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionSocializacionEstudianteNombre= res.data[index].nombres_miembro ; 
+            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionSocializacionEstudianteId= res.data[index].id_miembro  ; 
         }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===2 && data.id_comision_tipo===1  ){// director
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionSocializacionDirectorNombre= res.data[index].nombres_miembro  ;   
+            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionSocializacionDirectorId= res.data[index].id_miembro  ; 
+        }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===3 && data.id_comision_tipo===1  ){// maestro
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionSocializacionMaestroNombre= res.data[index].nombres_miembro  ;  
+            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionSocializacionMaestroId= res.data[index].id_miembro  ;   
+        }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===4 && data.id_comision_tipo===1  ){// padres
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionSocializacionPadreNombre= res.data[index].nombres_miembro  ;      
+            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionSocializacionPadreId= res.data[0].id_miembro  ; 
+        }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===5 && data.id_comision_tipo===1  ){// otro
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionSocializacionOtroNombre= res.data[index].nombres_miembro  ;    
+            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionSocializacionOtroId= res.data[index].id_miembro  ; 
+        }
+       console.log(res.data[index]);
+
+       if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===1 && data.id_comision_tipo===2  ){// estudiante
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionAprobacionEstudianteNombre= res.data[index].nombres_miembro ; 
+            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionAprobacionEstudianteid= res.data[index].id_miembro  ; 
+        }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===2 && data.id_comision_tipo===2  ){// director
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionAprobacionDirectorNombre= res.data[index].nombres_miembro  ;   
+            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionAprobacionDirectorId= res.data[index].id_miembro  ; 
+        }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===3 && data.id_comision_tipo===2  ){// maestro
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionAprobacionMaestroNombre= res.data[index].nombres_miembro  ;  
+            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionAprobacionMaestroId= res.data[index].id_miembro  ;   
+        }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===4 && data.id_comision_tipo===2  ){// padres
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionAprobacionPadreNombre= res.data[index].nombres_miembro  ;      
+            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionAprobacionPadreId= res.data[0].id_miembro  ; 
+        }
+        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===5 && data.id_comision_tipo===2  ){// otro
+                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+            form.value.comisionAprobacionOtroNombre= res.data[index].nombres_miembro  ;    
+            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            form.value.comisionAprobacionOtroId= res.data[index].id_miembro  ; 
+        }
+       console.log(res.data[index]);
+
+    });
+    
+       miembrosComisionConstruccion.value = res.data[0];           
+        
     } else {
         miembrosComisionConstruccion.value = null;
         find.value = false;
@@ -226,13 +290,12 @@ const save = async () => {
     }
 
     comisionConstruccion.value = {
-        1: {status: form.value.comisionSocializacionEstudiante, value: form.value.comisionSocializacionEstudianteNombre},
-        2: {status: form.value.comisionSocializacionDirector, value: form.value.comisionSocializacionDirectorNombre},
-        3: {status: form.value.comisionSocializacionMaestro, value: form.value.comisionSocializacionMaestroNombre},
-        4: {status: form.value.comisionSocializacionPadre, value: form.value.comisionSocializacionPadreNombre},
-        5: {status: form.value.comisionSocializacionOtro, value: form.value.comisionSocializacionOtroNombre}
+        1: {status: form.value.comisionSocializacionEstudiante, value: form.value.comisionSocializacionEstudianteNombre, id: form.value.comisionSocializacionEstudianteId },
+        2: {status: form.value.comisionSocializacionDirector, value: form.value.comisionSocializacionDirectorNombre, id: form.value.comisionSocializacionDirectorId},
+        3: {status: form.value.comisionSocializacionMaestro, value: form.value.comisionSocializacionMaestroNombre, id: form.value.comisionSocializacionMaestroId},
+        4: {status: form.value.comisionSocializacionPadre, value: form.value.comisionSocializacionPadreNombre, id: form.value.comisionSocializacionPadreId},
+        5: {status: form.value.comisionSocializacionOtro, value: form.value.comisionSocializacionOtroNombre, id: form.value.comisionSocializacionOtroId}
     };
-
     tema.value = {
         1: form.value.temaDerecho,
         2: form.value.temaNorma,
@@ -266,11 +329,11 @@ const save = async () => {
     };
 
     comisionAprobacion.value = {
-        1: {status: form.value.comisionAprobacionEstudiante, value: form.value.comisionAprobacionEstudianteNombre},
-        2: {status: form.value.comisionAprobacionDirector, value: form.value.comisionAprobacionDirectorNombre},
-        3: {status: form.value.comisionAprobacionMaestro, value: form.value.comisionAprobacionMaestroNombre},
-        4: {status: form.value.comisionAprobacionPadre, value: form.value.comisionAprobacionPadreNombre},
-        5: {status: form.value.comisionAprobacionOtro, value: form.value.comisionAprobacionOtroNombre}
+        1: {status: form.value.comisionAprobacionEstudiante, value: form.value.comisionAprobacionEstudianteNombre, id: form.value.comisionAprobacionEstudianteId},
+        2: {status: form.value.comisionAprobacionDirector, value: form.value.comisionAprobacionDirectorNombre, id: form.value.comisionAprobacionDirectorId},
+        3: {status: form.value.comisionAprobacionMaestro, value: form.value.comisionAprobacionMaestroNombre, id: form.value.comisionAprobacionMaestroId},
+        4: {status: form.value.comisionAprobacionPadre, value: form.value.comisionAprobacionPadreNombre, id: form.value.comisionAprobacionPadreId},
+        5: {status: form.value.comisionAprobacionOtro, value: form.value.comisionAprobacionOtroNombre, id: form.value.comisionAprobacionOtroId}
     };
 
     const payload1 = {
@@ -282,21 +345,21 @@ const save = async () => {
         nombres_director: form.value.director,
         apellidos_director: form.value.director,
     
-        cod_departamento: 1,
-        desc_departamento: 'Chuquisaca',
-        cod_municipio: 1,
-        desc_municipio: 'Sucre',
-        cod_nivel: 13,
-        desc_nivel: 'Secundaria',
-        modalidad: 'Presencial',
+        cod_departamento: form.value.departamento_codigo  ,
+        desc_departamento: form.value.departamentoNombre ,
+        cod_municipio:  form.value.municipioId,
+        desc_municipio:  form.value.municipioNombre,
+        cod_nivel: 0 ,
+        desc_nivel: form.value.nivel ,
+        modalidad: form.value.modalidad,
     
         estado: 'ACTIVO',
         usu_cre: 1,
         fec_cre: new Date()
     }
-
+          
     console.log(payload1);
-
+//  ueggPcpaUnidadEducativa
     const save1 = await ConvivenciaPacifica.create(payload1).then((res) => {
         if(res.status === 201){
             toast.info('Registro guardado correctamente', {
@@ -318,13 +381,16 @@ const save = async () => {
 
     const payload2 = {
         id_pcpa_unidad_educativa: save1.data.id,
-        fecha_registro: null,    
-        check_diagnostico_pcpa: true,
+        fecha_registro: form.value.fecha,    
+        check_diagnostico_pcpa: form.value.registroAnterior,   
+        fec_aprobacion: form.value.fechaAprobacion,
+        vigencia_aprobacion : form.value.vigenciaAprobacion,
+
         estado: 'ACTIVO',
-        usu_cre: "1",
+        usu_cre: username,
         fec_cre: new Date()
     }
-    
+       //  ueggPcpaConstruccion
     const save2 = await ConvivenciaPacifica.createContruccion(payload2).then((res) => {
         if(res.status === 201){
             toast.info('Registro guardado correctamente', {
@@ -346,25 +412,33 @@ const save = async () => {
     console.log("save2", save2);
     console.log( comisionConstruccion.value);
 
+
     console.log("ini bucle ");
-    let payload3;
+
+
+
+
+    let payload3 ;
     let save3;
+  
     await Object.keys(comisionConstruccion.value).map((item, key) => {
-        if(comisionConstruccion.value[item].status){
+        if(comisionConstruccion.value[item].value ){ //  ||  comisionConstruccion.value[item].length >0
             console.log(item, key);
+
             payload3 = {
                 id_pcpa_construccion: save2.data.id,
-                id_pcpa_comision_tipo: item,
-                id_pcpa_miembro_tipo: 1,
+                id_pcpa_comision_tipo: 1,
+                id_pcpa_miembro_tipo: item,      //  id_miembro:  save2.data.id,
                 orden: key + 1,
                 nombres_miembro: comisionConstruccion.value[item].value,
-                apellidos_miembro: comisionConstruccion.value[item].value, 
+                apellidos_miembro: '', //comisionConstruccion.value[item].value, 
                 check_miembro_comision: comisionConstruccion.value[item].status,                    
                 estado: 'ACTIVO' ,
-                usu_cre: "1",
+                usu_cre: username,
                 fec_cre: new Date()
             }
 
+           // ueggPcpaMiembroComision
             save3 = ConvivenciaPacifica.createMiembroComision(payload3).then((res) => {
                 if(res.status === 201){
                     toast.info('Registro guardado correctamente', {
@@ -382,8 +456,48 @@ const save = async () => {
                     return res;
                 }
             });
+
+      // cambiar a estado INACTIVO registros previos
+      const delete1 =  ConvivenciaPacifica.deleteConstruccion(form.value.comisionSocializacionIdConstruccion).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+
+
+            const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionConstruccion.value[item].id).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
         }        
     });
+
     console.log("fin bucle ");
     console.log("save3", save3);
 
@@ -401,10 +515,10 @@ const save = async () => {
                 tiempo_vigencia: 0,
                 declaracion_jurada: true,                    
                 estado: 'ACTIVO' ,
-                usu_cre: '1',
+                usu_cre: username,
                 fec_cre: new Date()
             }
-
+            //  ueggPcpaActividadesPromocion
             save4 = ConvivenciaPacifica.createTarea(payload4).then((res) => {
                 if(res.status === 201){
                     toast.info('Registro guardado correctamente', {
@@ -442,10 +556,10 @@ const save = async () => {
                     tiempo_vigencia: 0,
                     declaracion_jurada: true,                    
                     estado: 'ACTIVO' ,
-                    usu_cre: '1',
+                    usu_cre: username,
                     fec_cre: new Date()
                 }
-
+                           // ueggPcpaActividadesPromocion
                 save50 = ConvivenciaPacifica.createTareaPromover(payload50).then((res) => {
                     if(res.status === 201){
                         toast.info('Registro guardado correctamente', {
@@ -484,10 +598,10 @@ const save = async () => {
                     tiempo_vigencia: 0,
                     declaracion_jurada: true,                    
                     estado: 'ACTIVO' ,
-                    usu_cre: '1',
+                    usu_cre:username,
                     fec_cre: new Date()
                 }
-
+                        // ueggPcpaActividadesPromocion
                 save5 = ConvivenciaPacifica.createTareaPromover(payload5).then((res) => {
                     if(res.status === 201){
                         toast.info('Registro guardado correctamente', {
@@ -514,22 +628,22 @@ const save = async () => {
     console.log("ini bucle ");
     let payload6;
     let save6;
-    await Object.keys(comisionConstruccion.value).map((item, key) => {
-        if(comisionConstruccion.value[item].status){
+    await Object.keys(comisionAprobacion.value).map((item, key) => {
+        if(comisionAprobacion.value[item].value){ //  comisionConstruccion.value[item].status)
             console.log(item, key);
             payload6 = {
                 id_pcpa_construccion: save2.data.id,
-                id_pcpa_comision_tipo: item,
-                id_pcpa_miembro_tipo: 2,
+                id_pcpa_comision_tipo: 2,  // aprobacion
+                id_pcpa_miembro_tipo: item,
                 orden: key + 1,
                 nombres_miembro: comisionAprobacion.value[item].value,
-                apellidos_miembro: comisionAprobacion.value[item].value, 
+                apellidos_miembro: '',  // comisionAprobacion.value[item].value, 
                 check_miembro_comision: comisionAprobacion.value[item].status,                    
                 estado: 'ACTIVO' ,
-                usu_cre: "1",
+                usu_cre: username,
                 fec_cre: new Date()
             }
-
+                  //  ueggPcpaMiembroComision comisionAprobacion
             save6 = ConvivenciaPacifica.createMiembroComisionAprobacion(payload6).then((res) => {
                 if(res.status === 201){
                     toast.info('Registro guardado correctamente', {
@@ -547,6 +661,26 @@ const save = async () => {
                     return res;
                 }
             });
+
+            const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionConstruccion.value[item].id).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+
         }        
     });
     console.log("fin bucle ");
@@ -621,7 +755,7 @@ const validateForm = () => {
     if (!form.value.fechaAprobacion) validationErrors.value['fecha'] = true;
     else delete validationErrors.value['fecha'];
 
-    if (!form.value.comisionSocializacionEstudiante && !form.value.comisionSocializacionDirector && !form.value.comisionSocializacionMaestro && !form.value.comisionSocializacionPadre && !form.value.comisionSocializacionOtro) validationErrors.value['comision'] = true;
+    if ( (!form.value.comisionSocializacionEstudiante && !form.value.comisionSocializacionEstudianteNombre) && (!form.value.comisionSocializacionDirector && !form.value.comisionSocializacionDirectorNombre)  && (!form.value.comisionSocializacionMaestro &&  !form.value.comisionSocializacionMaestroNombre) && (!form.value.comisionSocializacionPadre && !form.value.comisionSocializacionPadreNombre)  && (!form.value.comisionSocializacionOtro && !form.value.comisionSocializacionOtroNombre) ) validationErrors.value['comision'] = true;
     else delete validationErrors.value['comision'];
 
     if (!form.value.temaDerecho && !form.value.temaNorma && !form.value.temaDisciplinario && !form.value.temaSancion && !form.value.temaAdopcion && !form.value.temaAlternativo && !form.value.temaRemision && !form.value.temaTaller && !form.value.temaPromover && !form.value.temaSeguimiento) validationErrors.value['tema'] = true;
@@ -632,8 +766,9 @@ const validateForm = () => {
         else delete validationErrors.value['temaPromover'];
     }
 
-    if (!form.value.comisionAprobacionEstudiante && !form.value.comisionAprobacionDirector && !form.value.comisionAprobacionMaestro && !form.value.comisionAprobacionPadre && !form.value.comisionAprobacionOtro) validationErrors.value['comisionAprobacion'] = true;
-    else delete validationErrors.value['comisionAprobacion'];
+   // if (!form.value.comisionAprobacionEstudiante && !form.value.comisionAprobacionDirector && !form.value.comisionAprobacionMaestro && !form.value.comisionAprobacionPadre && !form.value.comisionAprobacionOtro) validationErrors.value['comisionAprobacion'] = true;
+   if ( (!form.value.comisionAprobacionEstudiante && !form.value.comisionAprobacionEstudianteNombre) && (!form.value.comisionAprobacionDirector && !form.value.comisionAprobacionDirectorNombre)  && (!form.value.comisionAprobacionMaestro &&  !form.value.comisionAprobacionMaestroNombre) && (!form.value.comisionAprobacionPadre && !form.value.comisionAprobacionPadreNombre)  && (!form.value.comisionAprobacionOtro && !form.value.comisionAprobacionOtroNombre) ) validationErrors.value['comision'] = true;
+   else delete validationErrors.value['comisionAprobacion'];
 
     if (!form.value.fechaAprobacion) validationErrors.value['fechaAprobacion'] = true;
     else delete validationErrors.value['fechaAprobacion'];
@@ -892,7 +1027,7 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="6" >
-                                <v-text-field v-model="form.vigenciaAprobacion" label="Tiempo de vigencia" type="number" @input="onDateInput" hide-details required></v-text-field>
+                                <v-text-field v-model="form.vigenciaAprobacion" label="Tiempo de vigencia" type="number"  hide-details required></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12">

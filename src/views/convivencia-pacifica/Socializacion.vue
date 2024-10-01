@@ -18,6 +18,8 @@ const variusSie = ref(false);
 
 const institucionEducativa = ref();
 const miembrosComision = ref();
+const comisionSocializacion = ref();
+const comisionImplementacion = ref();
 
 const form: any = ref({
     sie: null,
@@ -32,6 +34,9 @@ const form: any = ref({
     comisionSocializacionMaestroNombre: '',
     comisionSocializacionPadreNombre: '',
     comisionSocializacionOtroNombre: '',
+    comisionSocializacionIdConstruccion: '',
+    comisionSocializacionIdMiembro: '',
+
     comisionImplementacionEstudiante: false,
     comisionImplementacionDirector: false,
     comisionImplementacionMaestro: false,
@@ -42,6 +47,9 @@ const form: any = ref({
     comisionImplementacionMaestroNombre: '',
     comisionImplementacionPadreNombre: '',
     comisionImplementacionOtroNombre: '',
+    comisionImplementacionIdConstruccion: '',
+    comisionImplementacionIdMiembro: '',
+
     actividad1: null,
     actividad2: null,
     actividad3: null,
@@ -66,13 +74,19 @@ const sieRules = [
     },
 ];
 
+let username: string | null ;
+
 onMounted(async() => {
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
         form.value.sie = user.codigo_sie;
         const resInst = await findInstitucionEducativa();
         const resMiem = await findMiembroComision();
+        username = localStorage.getItem('username') ;
+
     }
+
+
 }); 
 
 const findInstitucionEducativa = async () => {
@@ -97,40 +111,56 @@ const findMiembroComision = async () => {
     if(String(form.value.sie).length === 8){
         const res = await ConvivenciaPacifica.listMiembroComision(form.value.sie);
         console.log("res", res);
-        if(res.data && res.data.length > 0){
 
-            const idComisionSocializacionEstudiante = (obj: any) => obj.id_comision_tipo === 1 && obj.id_miembro_tipo === 1;
-            const idComisionSocializacionDirector = (obj: any) => obj.id_comision_tipo === 2 && obj.id_miembro_tipo === 1;
-            const idComisionSocializacionMaestro = (obj: any) => obj.id_comision_tipo === 3 && obj.id_miembro_tipo === 1;
-            const idComisionSocializacionPadre = (obj: any) => obj.id_comision_tipo === 4 && obj.id_miembro_tipo === 1;
-            const idComisionSocializacionOtro = (obj: any) => obj.id_comision_tipo === 5 && obj.id_miembro_tipo === 1;
+        if(res.data && res.data.length > 0){
+            const idComisionSocializacionEstudiante = (obj: any) => obj.id_comision_tipo === 3 && obj.id_miembro_tipo === 1;
+            const idComisionSocializacionDirector = (obj: any) => obj.id_comision_tipo === 3 && obj.id_miembro_tipo === 2;
+            const idComisionSocializacionMaestro = (obj: any) => obj.id_comision_tipo === 3 && obj.id_miembro_tipo === 3;
+            const idComisionSocializacionPadre = (obj: any) => obj.id_comision_tipo === 3 && obj.id_miembro_tipo === 4;
+            const idComisionSocializacionOtro = (obj: any) => obj.id_comision_tipo === 3 && obj.id_miembro_tipo === 5;
+
             form.value.comisionSocializacionEstudiante = res.data.some(idComisionSocializacionEstudiante);
             form.value.comisionSocializacionDirector = res.data.some(idComisionSocializacionDirector);
             form.value.comisionSocializacionMaestro = res.data.some(idComisionSocializacionMaestro);
             form.value.comisionSocializacionPadre = res.data.some(idComisionSocializacionPadre);
             form.value.comisionSocializacionOtro = res.data.some(idComisionSocializacionOtro);
+
             form.value.comisionSocializacionEstudianteNombre = res.data.find(idComisionSocializacionEstudiante)?.nombres_miembro;
             form.value.comisionSocializacionDirectorNombre = res.data.find(idComisionSocializacionDirector)?.nombres_miembro;
             form.value.comisionSocializacionMaestroNombre = res.data.find(idComisionSocializacionMaestro)?.nombres_miembro;
             form.value.comisionSocializacionPadreNombre = res.data.find(idComisionSocializacionPadre)?.nombres_miembro;
             form.value.comisionSocializacionOtroNombre = res.data.find(idComisionSocializacionOtro)?.nombres_miembro;
 
-            
-            const idComisionImplementacionEstudiante = (obj: any) => obj.id_comision_tipo === 1 && obj.id_miembro_tipo === 2;
-            const idComisionImplementacionDirector = (obj: any) => obj.id_comision_tipo === 2 && obj.id_miembro_tipo === 2;
-            const idComisionImplementacionMaestro = (obj: any) => obj.id_comision_tipo === 3 && obj.id_miembro_tipo === 2;
-            const idComisionImplementacionPadre = (obj: any) => obj.id_comision_tipo === 4 && obj.id_miembro_tipo === 2;
-            const idComisionImplementacionOtro = (obj: any) => obj.id_comision_tipo === 5 && obj.id_miembro_tipo === 2;
+            //form.value.comisionSocializacionIdMiembro=res.data.find(idComisionSocializacionOtro)?.id_miembro  ; 
+            form.value.comisionSocializacionEstudianteId = res.data.find(idComisionSocializacionEstudiante)?.id_miembro;
+            form.value.comisionSocializacionDirectorId = res.data.find(idComisionSocializacionDirector)?.id_miembro;
+            form.value.comisionSocializacionMaestroId = res.data.find(idComisionSocializacionMaestro)?.id_miembro;
+            form.value.comisionSocializacionPadreId = res.data.find(idComisionSocializacionPadre)?.id_miembro;
+            form.value.comisionSocializacionOtroId = res.data.find(idComisionSocializacionOtro)?.id_miembro;
+
+            const idComisionImplementacionEstudiante = (obj: any) => obj.id_comision_tipo === 4 && obj.id_miembro_tipo === 1;
+            const idComisionImplementacionDirector = (obj: any) => obj.id_comision_tipo === 4 && obj.id_miembro_tipo === 2;
+            const idComisionImplementacionMaestro = (obj: any) => obj.id_comision_tipo === 4 && obj.id_miembro_tipo === 3;
+            const idComisionImplementacionPadre = (obj: any) => obj.id_comision_tipo === 4 && obj.id_miembro_tipo === 4;
+            const idComisionImplementacionOtro = (obj: any) => obj.id_comision_tipo === 4 && obj.id_miembro_tipo === 5;
+
             form.value.comisionImplementacionEstudiante = res.data.some(idComisionImplementacionEstudiante);
             form.value.comisionImplementacionDirector = res.data.some(idComisionImplementacionDirector);
             form.value.comisionImplementacionMaestro = res.data.some(idComisionImplementacionMaestro);
             form.value.comisionImplementacionPadre = res.data.some(idComisionImplementacionPadre);
             form.value.comisionImplementacionOtro = res.data.some(idComisionImplementacionOtro);
+
             form.value.comisionImplementacionEstudianteNombre = res.data.find(idComisionImplementacionEstudiante)?.nombres_miembro;
             form.value.comisionImplementacionDirectorNombre = res.data.find(idComisionImplementacionDirector)?.nombres_miembro;
             form.value.comisionImplementacionMaestroNombre = res.data.find(idComisionImplementacionMaestro)?.nombres_miembro;
             form.value.comisionImplementacionPadreNombre = res.data.find(idComisionImplementacionPadre)?.nombres_miembro;
             form.value.comisionImplementacionOtroNombre = res.data.find(idComisionImplementacionOtro)?.nombres_miembro;
+
+            form.value.comisionImplementacionEstudianteId = res.data.find(idComisionImplementacionEstudiante)?.id_miembro;
+            form.value.comisionImplementacionDirectorId = res.data.find(idComisionImplementacionDirector)?.id_miembro;
+            form.value.comisionImplementacionMaestroId = res.data.find(idComisionImplementacionMaestro)?.id_miembro;
+            form.value.comisionImplementacionPadreId = res.data.find(idComisionImplementacionPadre)?.id_miembro;
+            form.value.comisionImplementacionOtroId = res.data.find(idComisionImplementacionOtro)?.id_miembro;
 
             miembrosComision.value = res.data;
             console.log(res.data);
@@ -195,6 +225,161 @@ const save = async () => {
         return false;
     }
 
+    comisionSocializacion.value = {
+        1: {status: form.value.comisionSocializacionEstudiante, value: form.value.comisionSocializacionEstudianteNombre, id: form.value.comisionSocializacionEstudianteId },
+        2: {status: form.value.comisionSocializacionDirector, value: form.value.comisionSocializacionDirectorNombre, id: form.value.comisionSocializacionDirectorId},
+        3: {status: form.value.comisionSocializacionMaestro, value: form.value.comisionSocializacionMaestroNombre, id: form.value.comisionSocializacionMaestroId},
+        4: {status: form.value.comisionSocializacionPadre, value: form.value.comisionSocializacionPadreNombre, id: form.value.comisionSocializacionPadreId},
+        5: {status: form.value.comisionSocializacionOtro, value: form.value.comisionSocializacionOtroNombre, id: form.value.comisionSocializacionOtroId}
+    };
+
+    comisionImplementacion.value = {
+        1: {status: form.value.comisionImplementacionEstudiante, value: form.value.comisionImplementacionEstudianteNombre, id: form.value.comisionImplementacionEstudianteId},
+        2: {status: form.value.comisionImplementacionDirector, value: form.value.comisionImplementacionDirectorNombre, id: form.value.comisionImplementacionDirectorId},
+        3: {status: form.value.comisionImplementacionMaestro, value: form.value.comisionImplementacionMaestroNombre, id: form.value.comisionImplementacionMaestroId},
+        4: {status: form.value.comisionImplementacionPadre, value: form.value.comisionImplementacionPadreNombre, id: form.value.comisionImplementacionPadreId},
+        5: {status: form.value.comisionImplementacionOtro, value: form.value.comisionImplementacionOtroNombre, id: form.value.comisionImplementacionOtroId}
+    };
+
+    let payload3 ;
+    let save3;
+  
+    await Object.keys(comisionSocializacion.value).map((item, key) => {
+        if(comisionSocializacion.value[item].value ){ //  ||  comisionConstruccion.value[item].length >0
+            console.log(item, key);
+
+            payload3 = {
+                id_pcpa_construccion: miembrosComision.value[0].id,
+                id_pcpa_comision_tipo: 3,
+                id_pcpa_miembro_tipo: item,     
+                orden: key + 1,
+                nombres_miembro: comisionSocializacion.value[item].value,
+                apellidos_miembro: '', 
+                check_miembro_comision: comisionSocializacion.value[item].status,                    
+                estado: 'ACTIVO' ,
+                usu_cre: username,
+                fec_cre: new Date()
+            }
+
+           // ueggPcpaMiembroComision
+            save3 = ConvivenciaPacifica.createMiembroComision(payload3).then((res) => {
+                if(res.status === 201){
+                    toast.info('Registro guardado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no guardado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+      // cambiar a estado INACTIVO registros previos
+    /*  const delete1 =  ConvivenciaPacifica.deleteConstruccion(comisionSocializacion.value[item].id,).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+*/
+
+        const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionSocializacion.value[item].id).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+        }        
+    });
+
+    let payload6;
+    let save6;
+    await Object.keys(comisionImplementacion.value).map((item, key) => {
+        if(comisionImplementacion.value[item].value){ 
+            console.log(item, key);
+            payload6 = {
+                id_pcpa_construccion: miembrosComision.value[0].id,
+                id_pcpa_comision_tipo: 4,  // implmentacion
+                id_pcpa_miembro_tipo: item,
+                orden: key + 1,
+                nombres_miembro: comisionImplementacion.value[item].value,
+                apellidos_miembro: '',  
+                check_miembro_comision: comisionImplementacion.value[item].status,                    
+                estado: 'ACTIVO' ,
+                usu_cre: username,
+                fec_cre: new Date()
+            }
+                  //  ueggPcpaMiembroComision comisionImplementacion
+            save6 = ConvivenciaPacifica.createMiembroComision(payload6).then((res) => {
+                if(res.status === 201){
+                    toast.info('Registro guardado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no guardado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+
+            const delete3 =  ConvivenciaPacifica.deleteMiembroComision(comisionImplementacion.value[item].id ? comisionImplementacion.value[item].id : 0).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+        }        
+    });
+    
+    console.log("save6", save6);
 
     if(form.value.actividad1){
         const payload = {
@@ -207,7 +392,7 @@ const save = async () => {
             usu_cre: 1,
             fec_cre: new Date()
         }
-        console.log('payload1', payload);
+        console.log('payload', payload);
 
         const save = await ConvivenciaPacifica.createSocializacion(payload).then((res) => {
             if(res.status === 201){
@@ -442,43 +627,43 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionSocializacionEstudiante" label="Estudiantes" :readonly="true"></v-checkbox>
+                                <v-checkbox v-model="form.comisionSocializacionEstudiante" label="Estudiantes" :disabled="false"></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionSocializacionEstudianteNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionSocializacionEstudianteNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionSocializacionDirector" label="Director(a)" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionSocializacionDirector" label="Director(a)" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionSocializacionDirectorNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionSocializacionDirectorNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionSocializacionMaestro" label="Maestro(a)" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionSocializacionMaestro" label="Maestro(a)" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionSocializacionMaestroNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionSocializacionMaestroNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionSocializacionPadre" label="Padres/Madres" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionSocializacionPadre" label="Padres/Madres" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionSocializacionPadreNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionSocializacionPadreNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionSocializacionOtro" label="Otros" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionSocializacionOtro" label="Otros" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionSocializacionOtroNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionSocializacionOtroNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12">                                
@@ -492,43 +677,43 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionImplementacionEstudiante" label="Estudiantes" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionImplementacionEstudiante" label="Estudiantes" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionImplementacionEstudianteNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionImplementacionEstudianteNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionImplementacionDirector" label="Director(a)" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionImplementacionDirector" label="Director(a)" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionImplementacionDirectorNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionImplementacionDirectorNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionImplementacionMaestro" label="Maestro(a)" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionImplementacionMaestro" label="Maestro(a)" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionImplementacionMaestroNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionImplementacionMaestroNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionImplementacionPadre" label="Padres/Madres" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionImplementacionPadre" label="Padres/Madres" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionImplementacionPadreNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionImplementacionPadreNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="2" >
-                                <v-checkbox v-model="form.comisionImplementacionOtro" label="Otros" :readonly="true" ></v-checkbox>
+                                <v-checkbox v-model="form.comisionImplementacionOtro" label="Otros" :disabled="false" ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-text-field v-model="form.comisionImplementacionOtroNombre" :counter="10" label="Nombre" hide-details :readonly="true" ></v-text-field>
+                                <v-text-field v-model="form.comisionImplementacionOtroNombre" :counter="10" label="Nombre" hide-details :disabled="false" ></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12" >
