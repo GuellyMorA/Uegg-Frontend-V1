@@ -418,7 +418,7 @@ const validateForm = () => {
                             </v-col>
                             
                             <v-col cols="12" md="6" >
-                                <v-text-field v-model="form.fechaFinBajaPostnatal" label="fín de baja postnatal"  @input="onDateInput6" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
+                                <v-text-field v-model="form.fechaFinBajaPostnatal" label="Fin de baja postnatal"  @input="onDateInput6" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12">                                

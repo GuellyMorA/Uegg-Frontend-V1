@@ -228,7 +228,7 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                 <img src="@/assets/man-working-on-laptop-54d5d789.png" class="bg-img-1 mt-sm-0 mt-sm-n10" data-v-81e7cbfb="">
             </v-card>
         </v-col>
-        <v-col cols="12" md="12"> 
+<!--        <v-col cols="12" md="12"> 
             <UiParentCard title="Herramientas "> 
                 <div class=""><p class="text-body-1">Normativa</p></div>
                 <div class=""><p class="text-body-1">Decreto Supremo 1302</p></div>
@@ -236,8 +236,7 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                 <div class=""><p class="text-body-1">Código niña niño adolescente</p></div>
                 <div class=""><p class="text-body-1">Fomrulario de registro de violencia jerárquica</p></div>
                 <div class=""><p class="text-body-1">Formulario de referencia a la DNA y sistema penal</p></div>
-                <!--
-                <div class="v-col-sm-6 v-col-lg-3 v-col-6">
+                    <div class="v-col-sm-6 v-col-lg-3 v-col-6">
                     <div class="v-card v-theme--BLUE_THEME v-card--density-default elevation-10 rounded-xl v-card--variant-elevated overflow-visible" data-v-81e7cbfb="">                       
                         <div class="v-card-text position-relative pb-5" data-v-81e7cbfb="">
                             <h5 class="text-h5 mb-1 font-weight-semibold" data-v-81e7cbfb=""> Registro </h5>
@@ -251,8 +250,8 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
                         <img src="@/assets/school-d037249b.png" class="bg-img-1 mt-sm-0 mt-sm-n10" data-v-81e7cbfb=""><span class="v-card__underlay"></span>
                     </div>
                 </div>
-                -->
+        
             </UiParentCard>
-        </v-col>
+        </v-col> -->
     </v-row>
 </template>

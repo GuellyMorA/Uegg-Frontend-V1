@@ -116,7 +116,7 @@ onMounted(async() => {
         findInstitucionEducativa();
         findMiembrosComisionConstruccion();
         username = localStorage.getItem('username') ;
-        form.value.vigenciaAprobacion=99;
+        form.value.vigenciaAprobacion;
         form.value.fecha='01/01/2027';
         form.value.fechaAprobacion='01/01/2028';
     }

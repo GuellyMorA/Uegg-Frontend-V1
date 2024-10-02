@@ -512,7 +512,7 @@ const crearCodigoUnico = (longitud: number) => {
                             </v-col>
 
                             <v-col cols="12" md="8" >
-                                <v-text-field v-model="form.victimaNombre" label="Nombre y Apellido" @input="onDateInput1" placeholder="DD/MM/AAAA" hide-details required :readonly="true"></v-text-field>
+                                <v-text-field v-model="form.victimaNombre" label="Nombre y Apellido" @input="onDateInput1" placeholder="Nombre y apellidos" hide-details required :readonly="true"></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12">                                
@@ -526,7 +526,7 @@ const crearCodigoUnico = (longitud: number) => {
                             </v-col>
 
                             <v-col cols="12" md="8" >
-                                <v-text-field v-model="form.agresorNombre" label="Nombre y Apellido" @input="onDateInput1" placeholder="DD/MM/AAAA" hide-details required :readonly="true"></v-text-field>
+                                <v-text-field v-model="form.agresorNombre" label="Nombre y Apellido" @input="onDateInput1" placeholder="Nombre y apellidos" hide-details required :readonly="true"></v-text-field>
                             </v-col>
 
 
@@ -569,21 +569,21 @@ const crearCodigoUnico = (longitud: number) => {
                                 </div>
                             </v-col>
 
-                            <!-- <v-col cols="12" md="4" >
+                            <v-col cols="12" md="4" >
                                 <v-checkbox v-model="form.violenciaFisica"  label="Violencia física" hide-details required></v-checkbox>
                             </v-col>
-
+                            <!--
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.violenciaFisicaGravedad"  label="Gravedad" hide-details required v-if="form.violenciaFisica"></v-text-field>
                             </v-col>
-
+                            -->
                             <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.violenciaFisicaValoracion" label="Valoración del hecho" hide-details required v-if="form.violenciaFisica"></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12" v-if="form.violenciaFisica">
                                 <v-text-field v-model="form.violenciaFisicaDescripcion" label="Descripción del hecho y daño" hide-details required ></v-text-field>
-                            </v-col> -->
+                            </v-col>
 
                             <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.violenciaPsicologica"  label="Violencia psicológica" hide-details required></v-checkbox>

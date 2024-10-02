@@ -534,7 +534,7 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="3">
-                                <v-text-field v-model="form.agresorCodigoRude" label="Código RUDE" hide-details required :readonly="true"></v-text-field>
+                                <v-text-field v-model="form.agresorCodigoRude" label="Código RDA" hide-details required :readonly="true"></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="3" >
