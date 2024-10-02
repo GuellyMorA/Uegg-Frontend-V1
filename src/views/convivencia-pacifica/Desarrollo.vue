@@ -116,7 +116,7 @@ onMounted(async() => {
         findInstitucionEducativa();
         findMiembrosComisionConstruccion();
         username = localStorage.getItem('username') ;
-        form.value.vigenciaAprobacion=;
+        form.value.vigenciaAprobacion=null; // MODIFICADO 20241001 // REVISAR GUELLY
         form.value.fecha='01/01/2027';
         form.value.fechaAprobacion='01/01/2028';
     }

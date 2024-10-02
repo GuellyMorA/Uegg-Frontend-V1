@@ -85,6 +85,7 @@ const save = async () => {
         id_violencia_agresor_nombre: caso.value.id_agresor,
         id_violencia_hecho_tipo: form.value.tipoViolencia.id,
         desc_hecho: form.value.descripcionHechoDano,
+        id_violencia_instancia: form.value.instanciaReferencia.id, // MODIFICADO 20241001
         recepcion_ficha: form.value.recepcionReferenciaDenuncia,
     
         estado: 'ACTIVO',
@@ -241,6 +242,19 @@ const violenciaTipo = [
     { id: 2, name: 'Psicológica' },  
     { id: 3, name: 'Sexual' }
 ]
+
+// MODIFICADO 20241001
+const instanciaTipo = [
+    { id: 1, name: 'DNA' }, 
+    { id: 2, name: 'SLIM' }, 
+    { id: 3, name: 'FELCV' }, 
+    { id: 4, name: 'FISCALIA' }, 
+    { id: 5, name: 'JPNA' }, 
+    { id: 6, name: 'CENTRO DE SALUD' }, 
+    { id: 7, name: 'OTRO' }
+]
+
+
 
 const headers = [
     { title: 'Caso', align: 'start', sortable: false, key: 'num_caso' },
@@ -465,9 +479,14 @@ const validateForm = () => {
                                 <v-text-field v-model="form.fechaReferenciaDenuncia" label="Fecha de la referencia o denuncia" @input="onDateInput2" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
                             </v-col>
                             
-                            <v-col cols="12" md="8" >
+                            <!-- <v-col cols="12" md="8" >
                                 <v-text-field v-model="form.instanciaReferencia" label="Instancia a la que se refiere o denuncia el caso" required></v-text-field>
-                            </v-col>                            
+                            </v-col>       -->
+
+                            <!-- MODIFICADO 20241001 -->
+                            <v-col cols="12" md="8" >
+                                <v-select v-model="form.instanciaReferencia" :items="instanciaTipo" item-title="name" item-value="id" label="Instancia a la que se refiere o denuncia el caso" return-object></v-select>
+                            </v-col>                      
                             
                             <v-col cols="12" md="12">
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">

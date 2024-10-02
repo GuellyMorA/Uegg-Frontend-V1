@@ -569,7 +569,7 @@ const crearCodigoUnico = (longitud: number) => {
                                 </div>
                             </v-col>
 
-                            <v-col cols="12" md="4" >
+                            <v-col cols="12" md="12" >
                                 <v-checkbox v-model="form.violenciaFisica"  label="Violencia física" hide-details required></v-checkbox>
                             </v-col>
                             <!--
@@ -577,15 +577,17 @@ const crearCodigoUnico = (longitud: number) => {
                                 <v-text-field v-model="form.violenciaFisicaGravedad"  label="Gravedad" hide-details required v-if="form.violenciaFisica"></v-text-field>
                             </v-col>
                             -->
-                            <v-col cols="12" md="4" >
+                            <!-- MODIFICADO 20241001 -->
+                            <!-- <v-col cols="12" md="4" >
                                 <v-text-field v-model="form.violenciaFisicaValoracion" label="Valoración del hecho" hide-details required v-if="form.violenciaFisica"></v-text-field>
-                            </v-col>
+                            </v-col> -->
 
                             <v-col cols="12" md="12" v-if="form.violenciaFisica">
                                 <v-text-field v-model="form.violenciaFisicaDescripcion" label="Descripción del hecho y daño" hide-details required ></v-text-field>
                             </v-col>
 
-                            <v-col cols="12" md="6" >
+                            <!-- MODIFICADO 20241001 -->
+                            <v-col cols="12" md="12" >
                                 <v-checkbox v-model="form.violenciaPsicologica"  label="Violencia psicológica" hide-details required></v-checkbox>
                             </v-col>
 
@@ -593,15 +595,17 @@ const crearCodigoUnico = (longitud: number) => {
                                 <v-text-field v-model="form.violenciaPsicologicaGravedad"  label="Gravedad" hide-details required v-if="form.violenciaPsicologica"></v-text-field>
                             </v-col> -->
 
-                            <v-col cols="12" md="6" >
+                            <!-- MODIFICADO 20241001 -->
+                            <!-- <v-col cols="12" md="6" >
                                 <v-text-field v-model="form.violenciaPsicologicaValoracion" label="Valoración del hecho" hide-details required v-if="form.violenciaPsicologica"></v-text-field>
-                            </v-col>
+                            </v-col> -->
 
                             <v-col cols="12" md="12" v-if="form.violenciaPsicologica">
                                 <v-text-field v-model="form.violenciaPsicologicaDescripcion" label="Descripción del hecho y daño" hide-details required ></v-text-field>
                             </v-col>      
 
-                            <v-col cols="12" md="6" >
+                            <!-- MODIFICADO 20241001 -->
+                            <v-col cols="12" md="12" >
                                 <v-checkbox v-model="form.violenciaSexual" label="Violencia sexual" hide-details required></v-checkbox>
                             </v-col>
 
@@ -609,10 +613,12 @@ const crearCodigoUnico = (longitud: number) => {
                                 <v-text-field v-model="form.violenciaSexualGravedad"  label="Gravedad" hide-details required v-if="form.violenciaSexual"></v-text-field>
                             </v-col> -->
 
-                            <v-col cols="12" md="6" >
+                            <!-- MODIFICADO 20241001 -->
+                            <!-- <v-col cols="12" md="6" >
                                 <v-text-field v-model="form.violenciaSexualValoracion" label="Valoración del hecho" hide-details required v-if="form.violenciaSexual"></v-text-field>
-                            </v-col>
+                            </v-col> -->
 
+                            <!-- MODIFICADO 20241001 -->
                             <v-col cols="12" md="12" v-if="form.violenciaSexual">
                                 <v-text-field v-model="form.violenciaSexualDescripcion" label="Descripción del hecho y daño" hide-details required ></v-text-field>
                             </v-col>   
