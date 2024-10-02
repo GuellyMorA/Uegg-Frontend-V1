@@ -116,7 +116,7 @@ onMounted(async() => {
         findInstitucionEducativa();
         findMiembrosComisionConstruccion();
         username = localStorage.getItem('username') ;
-        form.value.vigenciaAprobacion;
+        form.value.vigenciaAprobacion=;
         form.value.fecha='01/01/2027';
         form.value.fechaAprobacion='01/01/2028';
     }
@@ -950,7 +950,7 @@ const validateForm = () => {
 <!--                            <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.temaTaller" label="Programación de talleres de capacitación" required></v-checkbox>
                             </v-col>
- //mod RBC                       -->
+ //mod modificacion                      -->
                             <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.temaPromover" label="Actividades para promover la convivencia pacífica" required></v-checkbox>
                                 <v-row class="pl-10 secondarybg" v-if="form.temaPromover">
@@ -971,10 +971,10 @@ const validateForm = () => {
 <!--                           <v-col cols="12" md="6" >
                                 <v-checkbox v-model="form.temaSeguimiento" label="Plan de seguimiento y evaluación" required></v-checkbox>
                             </v-col>
-mod RBC                        -->
+modificacion                     -->
                             <v-col cols="12" md="12">
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Miembros de la comisión que aprueba el PCPA</span> <!-- Modificación RBC-->
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100">Miembros de la comisión que aprueba el PCPA</span> <!-- Modificación -->
                                 </div>
                             </v-col>
 
