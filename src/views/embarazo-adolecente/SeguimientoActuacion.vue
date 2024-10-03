@@ -343,7 +343,7 @@ const validateForm = () => {
                             </v-col>
 
                             <v-col cols="12" md="4" >
-                                <v-checkbox v-model="form.recibeControlPrenatal" label="¿ Recibe control prenatal ?" required></v-checkbox> <!-- RBC-->
+                                <v-checkbox v-model="form.recibeControlPrenatal" label="¿ Recibe control prenatal ?" required></v-checkbox> <!-- modificiación-->
                             </v-col>
 
                             <v-col cols="12" md="4" >
@@ -401,10 +401,10 @@ const validateForm = () => {
 
        <!--                     <v-col cols="12" md="4" >
                                 <v-checkbox v-model="form.bajaMedica" label="¿ Baja médica ?" required></v-checkbox>
-                            </v-col>    RBC-->
+                            </v-col>    modificacion-->
 
                             <v-col cols="12" md="4" >
-                                <v-checkbox v-model="form.permisoControlPrenatal" label="¿ Número de dias con permiso para controles pre y postnata  ?" required></v-checkbox> <!--mod tipo tipo de dato RBC-->
+                                <v-checkbox v-model="form.permisoControlPrenatal" label="¿ Número de dias con permiso para controles pre y postnata  ?" required></v-checkbox> <!--mod tipo tipo de dato modificacion-->
                             </v-col>
 
                             <v-col cols="12" md="12">                                
@@ -418,7 +418,7 @@ const validateForm = () => {
                             </v-col>
                             
                             <v-col cols="12" md="6" >
-                                <v-text-field v-model="form.fechaFinBajaPostnatal" label="fín de baja postnatal"  @input="onDateInput6" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
+                                <v-text-field v-model="form.fechaFinBajaPostnatal" label="Fin de baja postnatal"  @input="onDateInput6" placeholder="DD/MM/AAAA" hide-details required></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12">                                

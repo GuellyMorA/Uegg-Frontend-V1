@@ -284,7 +284,7 @@ const reset = () => {
                         <v-row>
                             <v-col cols="12" md="12">                                
                                 <div class="text-h6 w-100 font-weight-regular auth-divider position-relative">
-                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100"></span> <!--mod RBC-->
+                                    <span class="bg-surface position-relative text-subtitle-1 text-grey100"></span> <!--modificación -->
                                 </div>
                             </v-col>
                             <v-col cols="12" md="4">
