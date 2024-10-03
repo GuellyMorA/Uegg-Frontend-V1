@@ -84,7 +84,7 @@ const save = async () => {
         id_quien_denuncia_tipo: form.value.nombreDenuncianteMinisterioPublica.id,
 
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     console.log(payload);

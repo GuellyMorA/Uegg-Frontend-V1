@@ -167,7 +167,7 @@ const save = async () => {
         correo_electronico: form.value.correo,
 
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     console.log(payload);

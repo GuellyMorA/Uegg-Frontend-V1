@@ -167,7 +167,7 @@ const save = async () => {
         id_emb_reporte_embarazo_tipo_3: form.value.reporteNombre3?.id,
     
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
 
@@ -213,7 +213,7 @@ const save = async () => {
         check_estudiante_conviviente: form.value.unionTemprana,
     
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
 

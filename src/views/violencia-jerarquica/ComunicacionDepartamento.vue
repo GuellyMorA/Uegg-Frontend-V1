@@ -113,7 +113,7 @@ const save = async () => {
         fec_comunicacion_deptal: datePartsDist[2] || '' +'-'+ datePartsDist[1] || '' +'-'+ datePartsDist[0] || '',
     
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     console.log(payload);

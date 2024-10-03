@@ -161,7 +161,7 @@ const save = async () => {
         acciones_a_seguir: form.value.solucioAcciones,
 
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     

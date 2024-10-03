@@ -209,7 +209,7 @@ const save = async () => {
         num_ci: form.value.carnetIdentidad,
     
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     console.log(payload);

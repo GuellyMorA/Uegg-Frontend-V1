@@ -75,7 +75,7 @@ const save = async () => {
         fec_seg: dateParts[2] || '' +'-'+ dateParts[1] || '' +'-'+ dateParts[0] || '',
     
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     console.log(payload);

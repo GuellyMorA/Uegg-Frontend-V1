@@ -389,7 +389,7 @@ const save = async () => {
             desc_actividad: form.value.actividad1.name, 
             fec_actividad: form.value.actividad1Fecha,           
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log('payload', payload);
@@ -422,7 +422,7 @@ const save = async () => {
             desc_actividad: form.value.actividad2.name, 
             fec_actividad: form.value.actividad2Fecha,           
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log('payload2', payload);
@@ -455,7 +455,7 @@ const save = async () => {
             desc_actividad: form.value.actividad3.name, 
             fec_actividad: form.value.actividad3Fecha,           
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log('payload3', payload);
@@ -488,7 +488,7 @@ const save = async () => {
             desc_actividad: form.value.actividad4.name, 
             fec_actividad: form.value.actividad4Fecha,           
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log('payload4', payload);
@@ -521,7 +521,7 @@ const save = async () => {
             desc_actividad: form.value.actividad5.name, 
             fec_actividad: form.value.actividad5Fecha,           
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log('payload5', payload);

@@ -203,7 +203,7 @@ const save = async () => {
         check_cuenta_con_seguimiento: form.value.accionesSeguimiento,
 
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     

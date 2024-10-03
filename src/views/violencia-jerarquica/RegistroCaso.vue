@@ -90,7 +90,7 @@ const save = async () => {
         num_agresores: form.value.numeroAgresor,
     
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     console.log(payload);
@@ -136,7 +136,7 @@ const save = async () => {
         desc_hecho_sexual: form.value.violenciaSexualDescripcion,
 
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()            
     }
     console.log(payload1);

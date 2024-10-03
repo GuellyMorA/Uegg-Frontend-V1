@@ -71,7 +71,7 @@ const save = async () => {
         id_rec_jur: form.value.recursoJuridico.id,
             
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
     console.log(payload);

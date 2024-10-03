@@ -130,7 +130,7 @@ const save = async () => {
             desc_indicadores: form.value.Indicador1.desc_indicadores,
             fec_ejecucion: form.value.fecha,        
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log("payload1", payload1);
@@ -163,7 +163,7 @@ const save = async () => {
             desc_indicadores: form.value.Indicador2.desc_indicadores,
             fec_ejecucion: form.value.fecha,        
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log("payload2", payload2);
@@ -196,7 +196,7 @@ const save = async () => {
             desc_indicadores: form.value.Indicador3.desc_indicadores,
             fec_ejecucion: form.value.fecha,        
             estado: 'ACTIVO',
-            usu_cre: 1,
+           usu_cre: username,
             fec_cre: new Date()
         }
         console.log("payload3", payload3);

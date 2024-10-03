@@ -57,6 +57,18 @@ class ConvivenciaPacificaService {
         return error;
     });
   } 
+
+
+  deleteActividadesPromocion(id){
+    return http.put(`/ueggPcpaActividadesPromocionDel/${id}`).catch((error) => {
+        return error;
+    });
+  } 
+
+
+
+
+  
     // try {
     //   const user = localStorage.getItem('user');
     //   Create a new Axios instance with custom configurations
@@ -118,29 +130,18 @@ class ConvivenciaPacificaService {
   }
 
   findMiembrosComisionConstruccion(data){
-   // const user = JSON.parse(localStorage.getItem('user'));
-    return  http.get(`/listMiembrosComision/${data}`,).catch((error) => {
+    return  http.get(`/ueggPcpaMiembroComisionList/${data}`,).catch((error) => {
         return error;
     });
 
   }
-
-/*
-dateToString (date, timeZone, dialect) {
-    if (moment.tz.zone(timeZone)) {
-      date = moment(date).tz(timeZone);
-    } else {
-      date = moment(date).utcOffset(timeZone);
-    }
   
-    if (dialect === 'mysql' || dialect === 'mariadb') {
-      return date.format('YYYY-MM-DD HH:mm:ss');
-    } else {
-      // ZZ here means current timezone, _not_ UTC
-      return date.format('YYYY-MM-DD HH:mm:ss.SSS Z'); /// <-- Executed for MSSQL - includes offset
-    }
-  };
-*/
+  findActividadesPromocion(data){
+     return  http.get(`/ueggPcpaActividadesPromocionList/${data}`,).catch((error) => {
+         return error;
+     });
+ 
+   }
 
 
 

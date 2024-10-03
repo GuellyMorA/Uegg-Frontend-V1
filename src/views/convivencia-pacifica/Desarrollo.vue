@@ -24,7 +24,7 @@ const institucionEducativa = ref();
 const temaDisciplinario = ref();
 
 const miembrosComisionConstruccion = ref();
-const dateToString = ref();
+const actividadesPromocion = ref();
 
 
 const form: any = ref({
@@ -90,7 +90,7 @@ const form: any = ref({
     comisionAprobacionOtroNombre: '',
     comisionAprobacionIdConstruccion: '',
     comisionAprobacionIdMiembro: '',
-    fechaAprobacion: new Date(),
+    fechaAprobacion:'',
     vigenciaAprobacion: '',
     validado: false
 });
@@ -115,10 +115,11 @@ onMounted(async() => {
         form.value.sie = user.codigo_sie;
         findInstitucionEducativa();
         findMiembrosComisionConstruccion();
+        findActividadesPromocion();
         username = localStorage.getItem('username') ;
-        form.value.vigenciaAprobacion=99;
-        form.value.fecha='01/01/2027';
-        form.value.fechaAprobacion='01/01/2028';
+      //  form.value.vigenciaAprobacion=99;
+      //  form.value.fecha='01/01/2027';
+      //  form.value.fechaAprobacion='01/01/2028';
     }
 }); 
 
@@ -156,40 +157,42 @@ const findInstitucionEducativa = async () => {
 
 const findMiembrosComisionConstruccion = async () => {
     console.log(form.value.sie);
-    if(String(form.value.sie).length === 8){
+ if(String(form.value.sie).length === 8){
     const res = await ConvivenciaPacifica.findMiembrosComisionConstruccion(form.value.sie);
     console.log("res", res);
+
     res.data.map((data: {  id_comision_tipo: number; id_miembro_tipo: number; 
                         }, index:  number) => {
-                   
+             form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion    
+
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===1 && data.id_comision_tipo===1  ){// estudiante
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionSocializacionEstudianteNombre= res.data[index].nombres_miembro ; 
-            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+         
             form.value.comisionSocializacionEstudianteId= res.data[index].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===2 && data.id_comision_tipo===1  ){// director
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionSocializacionDirectorNombre= res.data[index].nombres_miembro  ;   
-            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+           // form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionSocializacionDirectorId= res.data[index].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===3 && data.id_comision_tipo===1  ){// maestro
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionSocializacionMaestroNombre= res.data[index].nombres_miembro  ;  
-            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+          //  form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionSocializacionMaestroId= res.data[index].id_miembro  ;   
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===4 && data.id_comision_tipo===1  ){// padres
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionSocializacionPadreNombre= res.data[index].nombres_miembro  ;      
-            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+          //  form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionSocializacionPadreId= res.data[0].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===5 && data.id_comision_tipo===1  ){// otro
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionSocializacionOtroNombre= res.data[index].nombres_miembro  ;    
-            form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+         //   form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionSocializacionOtroId= res.data[index].id_miembro  ; 
         }
        console.log(res.data[index]);
@@ -197,40 +200,52 @@ const findMiembrosComisionConstruccion = async () => {
        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===1 && data.id_comision_tipo===2  ){// estudiante
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionAprobacionEstudianteNombre= res.data[index].nombres_miembro ; 
-            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+            //form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionAprobacionEstudianteid= res.data[index].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===2 && data.id_comision_tipo===2  ){// director
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionAprobacionDirectorNombre= res.data[index].nombres_miembro  ;   
-            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+           // form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionAprobacionDirectorId= res.data[index].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===3 && data.id_comision_tipo===2  ){// maestro
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionAprobacionMaestroNombre= res.data[index].nombres_miembro  ;  
-            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+          //  form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionAprobacionMaestroId= res.data[index].id_miembro  ;   
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===4 && data.id_comision_tipo===2  ){// padres
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionAprobacionPadreNombre= res.data[index].nombres_miembro  ;      
-            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+           // form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionAprobacionPadreId= res.data[0].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===5 && data.id_comision_tipo===2  ){// otro
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionAprobacionOtroNombre= res.data[index].nombres_miembro  ;    
-            form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
+         //   form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
             form.value.comisionAprobacionOtroId= res.data[index].id_miembro  ; 
         }
        console.log(res.data[index]);
 
-    });
     
+    });
+
+    if(res.data && res.data.length > 0){
+        let dateParts = ( res.data[0].fecha_registro || '').split("T");    //const dateParts2 = new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString()
+        dateParts = ( dateParts[0] ).split("-"); 
+        form.value.fecha =  dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0];
+
+        dateParts = ( res.data[0].fecha_aprobacion || '').split("T"); 
+        dateParts = ( dateParts[0]).split("-"); 
+        form.value.fechaAprobacion=    dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0];
+        form.value.vigenciaAprobacion=  res.data[0].vigencia_aprobacion;
+
+    }
        miembrosComisionConstruccion.value = res.data[0];           
         
-    } else {
+  } else {
         miembrosComisionConstruccion.value = null;
         find.value = false;
         form.value.departamentoId = null;
@@ -244,6 +259,96 @@ const findMiembrosComisionConstruccion = async () => {
     }
 }; 
 
+const findActividadesPromocion = async () => {
+    console.log(form.value.sie);
+
+    const res = await ConvivenciaPacifica.findActividadesPromocion(form.value.sie);
+    console.log("res", res);
+    res.data.map((data: {  nivel: number; id_pcpa_actividades_tipo: number; 
+                        }, index:  number) => {
+              console.log("id_pcpa_actividades_tipo: ", data.id_pcpa_actividades_tipo  )        
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===1  ){// temaDerecho
+            form.value.id_temaDerecho= res.data[index].id_actividades_promocion  ;     
+            form.value.temaDerecho= res.data[index].check_actividad_tipo ;      }
+         
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===2  ){   
+			form.value.id_temaNorma          = res.data[index].id_actividades_promocion        ; 		  
+			form.value.temaNorma          = res.data[index].check_actividad_tipo        ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===3  ){   // PROCEDIMIENTOS DISCIPLINARIOS
+			form.value.id_temaDisciplinario  = res.data[index].id_actividades_promocion; 		 
+			form.value.temaDisciplinario  = res.data[index].check_actividad_tipo;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===4  ){ 
+			form.value.id_temaSancion        = res.data[index].id_actividades_promocion      ; 		      
+			form.value.temaSancion        = res.data[index].check_actividad_tipo      ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===5  ){  
+			form.value.id_temaAdopcion       = res.data[index].id_actividades_promocion     ; 		         
+			form.value.temaAdopcion       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===6  ){   
+			form.value.id_temaAlternativo    = res.data[index].id_actividades_promocion  ; 		      
+			form.value.temaAlternativo    = res.data[index].check_actividad_tipo  ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===7  ){  
+			form.value.id_temaRemision       = res.data[index].id_actividades_promocion     ; 		         
+			form.value.temaRemision       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===8  ){ 
+			form.value.id_temaTaller         = res.data[index].id_actividades_promocion       ; 		        
+			form.value.temaTaller         = res.data[index].check_actividad_tipo       ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===9  ){    // ACTIVIDADES PARA PROMOVER LA CONVIVENCIA PACÍFICA
+			form.value.id_temaPromover       = res.data[index].id_actividades_promocion     ; 		          
+			form.value.temaPromover       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===1 && data.id_pcpa_actividades_tipo===10  ){  
+			form.value.id_temaSeguimiento    = res.data[index].id_actividades_promocion  ;        
+			form.value.temaSeguimiento    = res.data[index].check_actividad_tipo  ;   }                                                               
+                                                 		         
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===1  ){ 
+			form.value.id_temaPromover1      = res.data[index].id_actividades_promocion     ; 		       
+			form.value.temaPromover1       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===2  ){  
+			form.value.id_temaPromover2      = res.data[index].id_actividades_promocion     ; 		        
+			form.value.temaPromover2       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===3  ){   
+			form.value.id_temaPromover3      = res.data[index].id_actividades_promocion     ; 		        
+			form.value.temaPromover3       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===4  ){ 
+			form.value.id_temaPromover4      = res.data[index].id_actividades_promocion     ; 		          
+			form.value.temaPromover4       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===5  ){  
+			form.value.id_temaPromover5      = res.data[index].id_actividades_promocion     ; 		         
+			form.value.temaPromover5       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===6  ){  
+			form.value.id_temaPromover6      = res.data[index].id_actividades_promocion     ; 		         
+			form.value.temaPromover6       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===7  ){   
+			form.value.id_temaPromover7      = res.data[index].id_actividades_promocion     ; 		        
+			form.value.temaPromover7       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===8  ){   
+			form.value.id_temaPromover8      = res.data[index].id_actividades_promocion     ; 		         
+			form.value.temaPromover8       = res.data[index].check_actividad_tipo     ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===9  ){ 
+			form.value.id_temaPromover9      = res.data[index].id_actividades_promocion     ; 		         
+			form.value.temaPromover9       = res.data[index].check_actividad_tipo     ;   } 
+		
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===10  ){   //  PROCEDIMIENTOS DISCIPLINARIOS
+			form.value.id_temaDisciplinarioCorrectivo               = res.data[index].id_actividades_promocion                ; 	
+			form.value.temaDisciplinarioCorrectivo               = res.data[index].check_actividad_tipo                ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===11  ){ 
+			form.value.id_temaDisciplinarioProcedimientoMarco       = res.data[index].id_actividades_promocion        ; 		      
+			form.value.temaDisciplinarioProcedimientoMarco       = res.data[index].check_actividad_tipo        ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===12  ){ 
+			form.value.id_temaDisciplinarioProcedimientoAlternativo = res.data[index].id_actividades_promocion  ; 		  
+			form.value.temaDisciplinarioProcedimientoAlternativo = res.data[index].check_actividad_tipo  ;   } 
+        if(res.data && res.data.length > 0 &&  data.nivel ===2 && data.id_pcpa_actividades_tipo===13  ){  
+			form.value.id_temaDisciplinarioLineamiento              = res.data[index].id_actividades_promocion               ; 		  
+			form.value.temaDisciplinarioLineamiento              = res.data[index].check_actividad_tipo               ;   } 
+
+       console.log(res.data[index]);
+
+    
+    });
+
+    actividadesPromocion.value = res.data[0];           
+        
+
+}; 
 
 const onDateInput = (event: any) => {
     // Remove non-numeric characters from the input
@@ -296,36 +401,38 @@ const save = async () => {
         4: {status: form.value.comisionSocializacionPadre, value: form.value.comisionSocializacionPadreNombre, id: form.value.comisionSocializacionPadreId},
         5: {status: form.value.comisionSocializacionOtro, value: form.value.comisionSocializacionOtroNombre, id: form.value.comisionSocializacionOtroId}
     };
+
     tema.value = {
-        1: form.value.temaDerecho,
-        2: form.value.temaNorma,
-        3: form.value.temaDisciplinario,
-        4: form.value.temaSancion,
-        5: form.value.temaAdopcion,
-        6: form.value.temaAlternativo,
-        7: form.value.temaRemision,
-        8: form.value.temaTaller,
-        9: form.value.temaPromover,
-        10: form.value.temaSeguimiento
+        1: {status: form.value.temaDerecho,         id: form.value.id_temaDerecho },
+        2: {status: form.value.temaNorma,           id: form.value.id_temaNorma},         
+        3: {status: form.value.temaDisciplinario,   id: form.value.id_temaDisciplinario}, 
+        4: {status: form.value.temaSancion,         id: form.value.id_temaSancion},       
+        5: {status: form.value.temaAdopcion,        id: form.value.id_temaAdopcion},      
+        6: {status: form.value.temaAlternativo,     id: form.value.id_temaAlternativo},   
+        7: {status: form.value.temaRemision,        id: form.value.id_temaRemision},      
+        8: {status: form.value.temaTaller,          id: form.value.id_temaTaller},        
+        9: {status: form.value.temaPromover,        id: form.value.id_temaPromover},      
+        10:{status: form.value.temaSeguimiento ,    id: form.value.id_temaSeguimiento   }
     };
 
     temaPromover.value = {
-        1: form.value.temaPromover1,
-        2: form.value.temaPromover2,
-        3: form.value.temaPromover3,
-        4: form.value.temaPromover4,
-        5: form.value.temaPromover5,
-        6: form.value.temaPromover6,
-        7: form.value.temaPromover7,
-        8: form.value.temaPromover8,
-        9: form.value.temaPromover9
+        1: {status: form.value.temaPromover1,       id: form.value.id_temaPromover1},     
+        2: {status: form.value.temaPromover2,       id: form.value.id_temaPromover2},     
+        3: {status: form.value.temaPromover3,       id: form.value.id_temaPromover3},     
+        4: {status: form.value.temaPromover4,       id: form.value.id_temaPromover4},     
+        5: {status: form.value.temaPromover5,       id: form.value.id_temaPromover5},     
+        6: {status: form.value.temaPromover6,       id: form.value.id_temaPromover6},     
+        7: {status: form.value.temaPromover7,       id: form.value.id_temaPromover7},     
+        8: {status: form.value.temaPromover8,       id: form.value.id_temaPromover8},     
+        9: {status: form.value.temaPromover9,       id: form.value.id_temaPromover9}      
+   
     };
 
     temaDisciplinario.value = {
-        10: form.value.temaDisciplinarioCorrectivo,
-        11: form.value.temaDisciplinarioProcedimientoMarco,
-        12: form.value.temaDisciplinarioProcedimientoAlternativo,
-        13: form.value.temaDisciplinarioLineamiento,
+        10:{status:  form.value.temaDisciplinarioCorrectivo,id: form.value.id_temaDisciplinarioCorrectivo},
+        11:{status:  form.value.temaDisciplinarioProcedimientoMarco,id: form.value.id_temaDisciplinarioProcedimientoMarco},
+        12:{status:  form.value.temaDisciplinarioProcedimientoAlternativo,id: form.value.id_temaDisciplinarioProcedimientoAlternativo},
+        13:{status:  form.value.temaDisciplinarioLineamiento,id: form.value.id_temaDisciplinarioLineamiento}
     };
 
     comisionAprobacion.value = {
@@ -354,7 +461,7 @@ const save = async () => {
         modalidad: form.value.modalidad,
     
         estado: 'ACTIVO',
-        usu_cre: 1,
+       usu_cre: username,
         fec_cre: new Date()
     }
           
@@ -378,12 +485,15 @@ const save = async () => {
         }
     });
         console.log("save1", save1);
-
+   
+    const dateParts = (form.value.fecha || '').split("/");
+    const dateParts2 = (form.value.fechaAprobacion || '').split("/"); 
+    
     const payload2 = {
         id_pcpa_unidad_educativa: save1.data.id,
-        fecha_registro: form.value.fecha,    
+        fecha_registro:  new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(), //new Date( form.value.fecha).toISOString(),
         check_diagnostico_pcpa: form.value.registroAnterior,   
-        fec_aprobacion: form.value.fechaAprobacion,
+        fecha_aprobacion: new Date(dateParts2[2] +'-'+ dateParts2[1] +'-'+ dateParts2[0]).toISOString(),
         vigencia_aprobacion : form.value.vigenciaAprobacion,
 
         estado: 'ACTIVO',
@@ -458,7 +568,7 @@ const save = async () => {
             });
 
       // cambiar a estado INACTIVO registros previos
-      const delete1 =  ConvivenciaPacifica.deleteConstruccion(form.value.comisionSocializacionIdConstruccion).then((res) => {
+            const delete1 =  ConvivenciaPacifica.deleteConstruccion(form.value.comisionSocializacionIdConstruccion).then((res) => {
                 if(res.status === 204){
                     toast.info('Registro eliminado correctamente', {
                         autoClose: 3000,
@@ -475,8 +585,6 @@ const save = async () => {
                     return res;
                 }
             });
-
-
 
             const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionConstruccion.value[item].id).then((res) => {
                 if(res.status === 204){
@@ -511,7 +619,7 @@ const save = async () => {
                 id_pcpa_construccion: save2.data.id,
                 id_pcpa_actividades_tipo: item,                   
                 nivel: 1,
-                fec_aprobacion: null,
+                fec_aprobacion:  new Date(dateParts2[2] +'-'+ dateParts2[1] +'-'+ dateParts2[0]).toISOString(),
                 tiempo_vigencia: 0,
                 declaracion_jurada: true,                    
                 estado: 'ACTIVO' ,
@@ -536,6 +644,64 @@ const save = async () => {
                     return res;
                 }
             });
+
+
+            let delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( tema.value[item].id ? 0 : tema.value[item].id ).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+            
+            delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( temaDisciplinario.value[item].id ? 0 : temaDisciplinario.value[item].id).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+            
+            delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( temaPromover.value[item].id ? 0 :  temaPromover.value[item].id ).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
         }        
     });
     console.log("fin bucle ");
@@ -1032,7 +1198,7 @@ mod RBC                        -->
                             </v-col>
 
                             <v-col cols="12" md="6" >
-                                <v-text-field v-model="form.vigenciaAprobacion" label="Tiempo de vigencia (1 a 3 años)" type="number" @input="onDateInput" hide-details required></v-text-field>
+                                <v-text-field v-model="form.vigenciaAprobacion" label="Tiempo de vigencia (1 a 3 años)" type="number"  hide-details required></v-text-field>
                             </v-col>
 
                             <v-col cols="12" md="12">
