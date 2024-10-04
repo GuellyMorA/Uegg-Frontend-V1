@@ -39,6 +39,13 @@ class ConvivenciaPacificaService {
         return error;
     });
   } 
+  
+  findMiembrosComisionConstruccion(data){
+    return  http.get(`/ueggPcpaMiembroComisionList/${data}`,).catch((error) => {
+        return error;
+    });
+
+  }
 
   createTarea(data){
     return http.post(`/ueggPcpaActividadesPromocion`, data).catch((error) => {
@@ -129,12 +136,7 @@ class ConvivenciaPacificaService {
     });
   }
 
-  findMiembrosComisionConstruccion(data){
-    return  http.get(`/ueggPcpaMiembroComisionList/${data}`,).catch((error) => {
-        return error;
-    });
 
-  }
   
   findActividadesPromocion(data){
      return  http.get(`/ueggPcpaActividadesPromocionList/${data}`,).catch((error) => {

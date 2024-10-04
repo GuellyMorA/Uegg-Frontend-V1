@@ -165,7 +165,7 @@ const findMiembrosComisionConstruccion = async () => {
     res.data.map((data: {  id_comision_tipo: number; id_miembro_tipo: number; 
                         }, index:  number) => {
              form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion    
-
+          
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===1 && data.id_comision_tipo===1  ){// estudiante
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionSocializacionEstudianteNombre= res.data[index].nombres_miembro ; 
@@ -188,7 +188,7 @@ const findMiembrosComisionConstruccion = async () => {
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionSocializacionPadreNombre= res.data[index].nombres_miembro  ;      
           //  form.value.comisionSocializacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
-            form.value.comisionSocializacionPadreId= res.data[0].id_miembro  ; 
+            form.value.comisionSocializacionPadreId= res.data[index].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===5 && data.id_comision_tipo===1  ){// otro
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
@@ -199,10 +199,10 @@ const findMiembrosComisionConstruccion = async () => {
        console.log(res.data[index]);
 
        if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===1 && data.id_comision_tipo===2  ){// estudiante
-                   console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
+                   console.log("res.data[index].id_miembro : ", res.data[index].id_miembro  )
             form.value.comisionAprobacionEstudianteNombre= res.data[index].nombres_miembro ; 
             //form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
-            form.value.comisionAprobacionEstudianteid= res.data[index].id_miembro  ; 
+            form.value.comisionAprobacionEstudianteId= res.data[index].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===2 && data.id_comision_tipo===2  ){// director
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
@@ -220,7 +220,7 @@ const findMiembrosComisionConstruccion = async () => {
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
             form.value.comisionAprobacionPadreNombre= res.data[index].nombres_miembro  ;      
            // form.value.comisionAprobacionIdConstruccion= res.data[index].id  ;  //id_pcpa_construccion
-            form.value.comisionAprobacionPadreId= res.data[0].id_miembro  ; 
+            form.value.comisionAprobacionPadreId= res.data[index].id_miembro  ; 
         }
         if(res.data && res.data.length > 0 &&  data.id_miembro_tipo ===5 && data.id_comision_tipo===2  ){// otro
                    console.log("id_miembro_tipo: ", data.id_miembro_tipo  )
@@ -242,7 +242,7 @@ const findMiembrosComisionConstruccion = async () => {
         dateParts = ( dateParts[0]).split("-"); 
         form.value.fechaAprobacion=    dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0];
         form.value.vigenciaAprobacion=  res.data[0].vigencia_aprobacion;
-
+        form.value.registroAnterior=   res.data[0].check_diagnostico_pcpa;
     }
        miembrosComisionConstruccion.value = res.data[0];           
         
@@ -534,7 +534,7 @@ const save = async () => {
   
     await Object.keys(comisionConstruccion.value).map((item, key) => {
         if(comisionConstruccion.value[item].value ){ //  ||  comisionConstruccion.value[item].length >0
-            console.log(item, key);
+            console.log('comisionConstruccion item, key: ', item, key);
 
             payload3 = {
                 id_pcpa_construccion: save2.data.id,
@@ -586,8 +586,10 @@ const save = async () => {
                     return res;
                 }
             });
-
+            console.log('comisionSocializacionIdConstruccion.value[item].id: ',  comisionConstruccion.value[item].id);
             const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionConstruccion.value[item].id).then((res) => {
+                console.log('comisionSocializacionIdConstruccion.value[item].id: ',  comisionConstruccion.value[item].id);
+
                 if(res.status === 204){
                     toast.info('Registro eliminado correctamente', {
                         autoClose: 3000,
@@ -614,7 +616,7 @@ const save = async () => {
     let payload4;
     let save4;
     await Object.keys(tema.value).map((item, key) => {
-        if(tema.value[item]){
+        if(tema.value[item].status){
             console.log(item, key);
             payload4 = {
                 id_pcpa_construccion: save2.data.id,
@@ -647,7 +649,7 @@ const save = async () => {
             });
 
 
-            let delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( tema.value[item].id ? 0 : tema.value[item].id ).then((res) => {
+            let delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( tema.value[item].id  === undefined ? 0 : tema.value[item].id ).then((res) => {
                 if(res.status === 204){
                     toast.info('Registro eliminado correctamente', {
                         autoClose: 3000,
@@ -666,43 +668,6 @@ const save = async () => {
             });
 
             
-            delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( temaDisciplinario.value[item].id ? 0 : temaDisciplinario.value[item].id).then((res) => {
-                if(res.status === 204){
-                    toast.info('Registro eliminado correctamente', {
-                        autoClose: 3000,
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
-                    dialog.value = false;  
-                    dialogSave.value = true; 
-                    return res;
-                } else {
-                    toast.error('Registro no eliminado', {
-                        autoClose: 3000,
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
-                    return res;
-                }
-            });
-
-            
-            delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( temaPromover.value[item].id ? 0 :  temaPromover.value[item].id ).then((res) => {
-                if(res.status === 204){
-                    toast.info('Registro eliminado correctamente', {
-                        autoClose: 3000,
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
-                    dialog.value = false;  
-                    dialogSave.value = true; 
-                    return res;
-                } else {
-                    toast.error('Registro no eliminado', {
-                        autoClose: 3000,
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
-                    return res;
-                }
-            });
-
         }        
     });
     console.log("fin bucle ");
@@ -713,13 +678,13 @@ const save = async () => {
         let payload50;
         let save50;
         await Object.keys(temaDisciplinario.value).map((item, key) => {
-            if(temaDisciplinario.value[item]){
+            if(temaDisciplinario.value[item].status){
                 console.log(item, key);
                 payload50 = {
                     id_pcpa_construccion: save2.data.id,
                     id_pcpa_actividades_tipo: item,                   
                     nivel: 2,
-                    fec_aprobacion: null,
+                    fec_aprobacion:  new Date(dateParts2[2] +'-'+ dateParts2[1] +'-'+ dateParts2[0]).toISOString(),
                     tiempo_vigencia: 0,
                     declaracion_jurada: true,                    
                     estado: 'ACTIVO' ,
@@ -744,6 +709,27 @@ const save = async () => {
                         return res;
                     }
                 });
+
+
+                const delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( temaDisciplinario.value[item].id  === undefined ? 0 : temaDisciplinario.value[item].id).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+
             }        
         });
         console.log("fin bucle ");
@@ -755,13 +741,13 @@ const save = async () => {
         let payload5;
         let save5;
         await Object.keys(temaPromover.value).map((item, key) => {
-            if(temaPromover.value[item]){
+            if(temaPromover.value[item].status){
                 console.log(item, key);
                 payload5 = {
                     id_pcpa_construccion: save2.data.id,
                     id_pcpa_actividades_tipo: item,                   
                     nivel: 2,
-                    fec_aprobacion: null,
+                    fec_aprobacion:  new Date(dateParts2[2] +'-'+ dateParts2[1] +'-'+ dateParts2[0]).toISOString(),
                     tiempo_vigencia: 0,
                     declaracion_jurada: true,                    
                     estado: 'ACTIVO' ,
@@ -786,6 +772,26 @@ const save = async () => {
                         return res;
                     }
                 });
+
+                const delete2 =  ConvivenciaPacifica.deleteActividadesPromocion( temaPromover.value[item].id === undefined ? 0 :  temaPromover.value[item].id ).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+            });
+
+
             }        
         });
         console.log("fin bucle ");
@@ -797,7 +803,8 @@ const save = async () => {
     let save6;
     await Object.keys(comisionAprobacion.value).map((item, key) => {
         if(comisionAprobacion.value[item].value){ //  comisionConstruccion.value[item].status)
-            console.log(item, key);
+            console.log('comisionAprobacion item, key: ', item, key);
+
             payload6 = {
                 id_pcpa_construccion: save2.data.id,
                 id_pcpa_comision_tipo: 2,  // aprobacion
@@ -828,8 +835,9 @@ const save = async () => {
                     return res;
                 }
             });
-
-            const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionConstruccion.value[item].id).then((res) => {
+            console.log('comisionAprobacion.value[item].id: ',  comisionAprobacion.value[item].id);
+            const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionAprobacion.value[item].id).then((res) => {
+              console.log('comisionAprobacion.value[item].id: ',  comisionAprobacion.value[item].id);
                 if(res.status === 204){
                     toast.info('Registro eliminado correctamente', {
                         autoClose: 3000,
