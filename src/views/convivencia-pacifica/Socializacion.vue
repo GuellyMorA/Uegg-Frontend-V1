@@ -20,6 +20,7 @@ const institucionEducativa = ref();
 const miembrosComision = ref();
 const comisionSocializacion = ref();
 const comisionImplementacion = ref();
+const actividadesEjecucion = ref();
 
 const form: any = ref({
     sie: null,
@@ -82,6 +83,7 @@ onMounted(async() => {
         form.value.sie = user.codigo_sie;
         const resInst = await findInstitucionEducativa();
         const resMiem = await findMiembroComision();
+        const resAct = await findActividadesEjecutadas();
         username = localStorage.getItem('username') ;
 
     }
@@ -172,6 +174,57 @@ const findMiembroComision = async () => {
     }
 }; 
 
+  
+const findActividadesEjecutadas = async () => {
+    console.log('form.value.sie :', form.value.sie);
+
+    const res = await ConvivenciaPacifica.findActividadesEjecutadas(form.value.sie);
+    console.log("res", res);
+    let dateParts ;
+
+    res.data.map((data: {   id_pcpa_actividades_tipo: number;    }, index:  number) => {
+              console.log("id_actividades_ejecutadas: ", res.data[index].id_actividades_ejecutadas  )     
+     
+        const dateParts = (res.data[index].fec_actividad || '').split("/");
+        if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===11  ){// 
+            form.value.actividad1Id= res.data[index].id_actividades_ejecutadas ;     
+           form.value.actividad1= res.data[index].desc_actividades_ejecutadas ;   
+            form.value.actividad1Fecha= dateParts; //  res.data[index].fec_actividad ;  
+           }
+        if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===12  ){// 
+        form.value.actividad2Id= res.data[index].id_actividades_ejecutadas ;     
+        form.value.actividad2= res.data[index].desc_actividades_ejecutadas ;   
+        form.value.actividad2Fecha= dateParts; // res.data[index].fec_actividad ;  
+        }
+        if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===13  ){// 
+        form.value.actividad3Id= res.data[index].id_actividades_ejecutadas ;     
+        form.value.actividad3= res.data[index].desc_actividades_ejecutadas ;   
+        form.value.actividad3Fecha=dateParts; //  res.data[index].fec_actividad ;  
+        }
+        if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===14  ){// 
+        form.value.actividad4Id= res.data[index].id_actividades_ejecutadas ;     
+        form.value.actividad4= res.data[index].desc_actividades_ejecutadas ;   
+        form.value.actividad4Fecha= dateParts; // res.data[index].fec_actividad ;  
+        }
+        if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===15  ){// 
+        form.value.actividad5Id= res.data[index].id_actividades_ejecutadas ;     
+        form.value.actividad5= res.data[index].desc_actividades_ejecutadas ;   
+        form.value.actividad5Fecha=dateParts; //  res.data[index].fec_actividad ;  
+        }
+                                                                                                      
+      
+       console.log(res.data[index]);
+
+    
+    });
+
+    //actividadesEjecucion.value = res.data[0];           
+        
+
+}; 
+
+
+
 const onDateInput1 = (event: any) => {
     const cleanedInput = event.target.value.replace(/\D/g, '');
     form.value.actividad1Fecha = onDateInput(cleanedInput);
@@ -240,6 +293,18 @@ const save = async () => {
         4: {status: form.value.comisionImplementacionPadre, value: form.value.comisionImplementacionPadreNombre, id: form.value.comisionImplementacionPadreId},
         5: {status: form.value.comisionImplementacionOtro, value: form.value.comisionImplementacionOtroNombre, id: form.value.comisionImplementacionOtroId}
     };
+
+
+
+    actividadesEjecucion.value = {
+        1: {fecha: form.value.actividad1Fecha, value: form.value.actividad1, id: form.value.actividad1Id },
+        2: {fecha: form.value.actividad2Fecha, value: form.value.actividad2, id: form.value.actividad2Id},
+        3: {fecha: form.value.actividad3Fecha, value: form.value.actividad3, id: form.value.actividad3Id},
+        4: {fecha: form.value.actividad4Fecha, value: form.value.actividad4, id: form.value.actividad4Id},
+        5: {fecha: form.value.actividad5Fecha, value: form.value.actividad5, id: form.value.actividad5Id}
+		
+    };
+
 
     let payload3 ;
     let save3;
@@ -369,12 +434,12 @@ const save = async () => {
     
     console.log("save6", save6);
 
-    if(form.value.actividad1){
+    if(form.value.actividad1 && form.value.actividad1.length > 0   ){
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad1.id,
+            id_pcpa_actividades_tipo: form.value.actividad1Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
-            cod_actividad: form.value.actividad1.id,  
-            desc_actividad: form.value.actividad1.name, 
+            //cod_actividad: form.value.actividad1.id,  
+            desc_actividad: form.value.actividad1, 
             fec_actividad: form.value.actividad1Fecha,           
             estado: 'ACTIVO',
            usu_cre: username,
@@ -404,16 +469,16 @@ const save = async () => {
 
     if(form.value.actividad2){
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad2.id,
+            id_pcpa_actividades_tipo: form.value.actividad2Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
-            cod_actividad: form.value.actividad2.id,  
-            desc_actividad: form.value.actividad2.name, 
+           // cod_actividad: form.value.actividad2Id,  
+            desc_actividad: form.value.actividad2, 
             fec_actividad: form.value.actividad2Fecha,           
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
         }
-        console.log('payload2', payload);
+        console.log('payload', payload);
 
         const save = await ConvivenciaPacifica.createSocializacion(payload).then((res) => {
             if(res.status === 201){
@@ -437,10 +502,10 @@ const save = async () => {
 
     if(form.value.actividad3){
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad3.id,
+            id_pcpa_actividades_tipo: form.value.actividad3Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
-            cod_actividad: form.value.actividad3.id,  
-            desc_actividad: form.value.actividad3.name, 
+           // cod_actividad: form.value.actividad3.id,  
+            desc_actividad: form.value.actividad3, 
             fec_actividad: form.value.actividad3Fecha,           
             estado: 'ACTIVO',
            usu_cre: username,
@@ -470,10 +535,10 @@ const save = async () => {
 
     if(form.value.actividad4){
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad4.id,
+            id_pcpa_actividades_tipo: form.value.actividad4Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
-            cod_actividad: form.value.actividad4.id,  
-            desc_actividad: form.value.actividad4.name, 
+           // cod_actividad: form.value.actividad4.id,  
+            desc_actividad: form.value.actividad4, 
             fec_actividad: form.value.actividad4Fecha,           
             estado: 'ACTIVO',
            usu_cre: username,
@@ -503,10 +568,10 @@ const save = async () => {
 
     if(form.value.actividad5){
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad5.id,
+            id_pcpa_actividades_tipo: form.value.actividad5Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
-            cod_actividad: form.value.actividad5.id,  
-            desc_actividad: form.value.actividad5.name, 
+           // cod_actividad: form.value.actividad5.id,  
+            desc_actividad: form.value.actividad5, 
             fec_actividad: form.value.actividad5Fecha,           
             estado: 'ACTIVO',
            usu_cre: username,
@@ -534,6 +599,35 @@ const save = async () => {
         console.log("save5", save);
     }
     
+  //  delete 
+    await Object.keys(actividadesEjecucion.value).map((item, key) => {
+        if( actividadesEjecucion.value[item].value){ 
+            console.log('actividadesEjecucion item, key: ', item, key);
+            if(!(actividadesEjecucion.value[item].id  === undefined ) ){ 
+              const delete3 =  ConvivenciaPacifica.deleteActividadesEjecutadas(actividadesEjecucion.value[item].id ).then((res) => {
+                if(res.status === 204){
+                    toast.info('Registro eliminado correctamente', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    dialog.value = false;  
+                    dialogSave.value = true; 
+                    return res;
+                } else {
+                    toast.error('Registro no eliminado', {
+                        autoClose: 3000,
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return res;
+                }
+              });
+            }
+        }
+    });
+
+
+
+
     dialog.value = false;  
     dialogSave.value = true;   
 };
@@ -553,14 +647,15 @@ const reset = () => {
 };
 
 const actividadTipo = [
-    //{ id: 1, name: 'Carteles' },  
-    { id: 2, name: 'Medios de comunicación interna' },  
-    { id: 3, name: 'Redes sociales' },  
-    { id: 4, name: 'Talleres' },  
-    { id: 5, name: 'Ferias' },  
-    { id: 6, name: 'Otros' }
+    { id: 1, name: '' },  
+    { id: 2, name: 'MEDIOS DE COMUNICACIÓN INTERNA' },  
+    { id: 3, name: 'REDES SOCIALES' },  
+    { id: 4, name: 'TALLERES' },  
+    { id: 5, name: 'FERIAS' },  
+    { id: 6, name: 'OTROS' }
 ]
-
+    
+  
 const validateForm = () => {
     validationErrors.value = {};
 

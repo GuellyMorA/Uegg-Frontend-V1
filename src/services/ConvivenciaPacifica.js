@@ -39,7 +39,7 @@ class ConvivenciaPacificaService {
         return error;
     });
   } 
-  
+
   findMiembrosComisionConstruccion(data){
     return  http.get(`/ueggPcpaMiembroComisionList/${data}`,).catch((error) => {
         return error;
@@ -72,6 +72,12 @@ class ConvivenciaPacificaService {
     });
   } 
 
+
+  deleteActividadesEjecutadas(id){
+    return http.put(`/ueggPcpaActividadesEjecutadasDel/${id}`).catch((error) => {
+        return error;
+    });
+  } 
 
 
 
@@ -145,7 +151,12 @@ class ConvivenciaPacificaService {
  
    }
 
-
+  findActividadesEjecutadas(data){
+     return  http.get(`/ueggPcpaActividadesEjecutadasList/${data}`,).catch((error) => {
+         return error;
+     });
+ 
+   }
 
 
 }
