@@ -23,7 +23,7 @@ const formSearch = ref({
     codigoRda: '',
     usuario: ''
 });
-
+let username: string | null ;
 const form: any = ref({
     numeroCaso: '',
     fechaAgresion: null,
@@ -58,6 +58,8 @@ onMounted(async() => {
     if(user && user.codigo_sie){
         form.value.numeroCaso = crearCodigoUnico(10);
     }
+    username = localStorage.getItem('username') ;
+
 }); 
 
 const sieRules = [
@@ -86,7 +88,7 @@ const save = async () => {
 
     const payload = {    
         num_caso: form.value.numeroCaso,
-        fec_agresion: new Date(dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]),
+        fec_agresion: new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]),
         num_agresores: form.value.numeroAgresor,
     
         estado: 'ACTIVO',
@@ -124,7 +126,7 @@ const save = async () => {
         comunicacion_tutores: form.value.comunicacionTutor,
         desc_hecho: form.value.descripcionBreve,    
         nombre_tutores: form.value.comunicacionTutorNombre,
-        fec_com: new Date(dateParts1[2] +'/'+ dateParts1[1] +'/'+ dateParts1[0]),
+        fec_com: new Date(dateParts1[2] +'-'+ dateParts1[1] +'-'+ dateParts1[0]),
         violencia_fis: form.value.violenciaFisica,
         violencia_val_fis: form.value.violenciaFisicaValoracion,
         desc_hecho_fis: form.value.violenciaFisicaDescripcion,

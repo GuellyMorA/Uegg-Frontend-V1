@@ -21,9 +21,12 @@ const variusSie = ref(false);
 const construccion = ref();
 const institucionEducativa = ref();
 const estudiante = ref();
+let username: string | null ;
 
 
 onMounted(async() => {
+    username = localStorage.getItem('username') ;
+
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
         form.value.sie = user.codigo_sie;
@@ -156,7 +159,7 @@ const save = async () => {
         check_director_victima_violencia: form.value.consultaVictimaViolencia,
         cod_caso_denuncia: form.value.numeroCaso,
         nombre_adolescente: form.value.nombreVictima,
-        fec_denuncia: new Date(dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]), 
+        fec_denuncia: new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]), 
         motivo_queja: form.value.motivoQueja,
         acciones_a_seguir: form.value.solucioAcciones,
 

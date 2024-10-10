@@ -586,26 +586,28 @@ const save = async () => {
                     return res;
                 }
             });
-            console.log('comisionSocializacionIdConstruccion.value[item].id: ',  comisionConstruccion.value[item].id);
-            const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionConstruccion.value[item].id).then((res) => {
-                console.log('comisionSocializacionIdConstruccion.value[item].id: ',  comisionConstruccion.value[item].id);
+            console.log('comisionConstruccion.value[item].id: ',  comisionConstruccion.value[item].id);
+            if(!(comisionConstruccion.value[item].id  === undefined ) ){ 
+                const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionConstruccion.value[item].id).then((res) => {
+                    console.log('comisionConstruccion.value[item].id: ',  comisionConstruccion.value[item].id);
 
-                if(res.status === 204){
-                    toast.info('Registro eliminado correctamente', {
-                        autoClose: 3000,
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
-                    dialog.value = false;  
-                    dialogSave.value = true; 
-                    return res;
-                } else {
-                    toast.error('Registro no eliminado', {
-                        autoClose: 3000,
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
-                    return res;
-                }
-            });
+                    if(res.status === 204){
+                        toast.info('Registro eliminado correctamente', {
+                            autoClose: 3000,
+                            position: toast.POSITION.TOP_RIGHT,
+                        });
+                        dialog.value = false;  
+                        dialogSave.value = true; 
+                        return res;
+                    } else {
+                        toast.error('Registro no eliminado', {
+                            autoClose: 3000,
+                            position: toast.POSITION.TOP_RIGHT,
+                        });
+                        return res;
+                    }
+                });
+            }
         }        
     });
 
@@ -836,6 +838,8 @@ const save = async () => {
                 }
             });
             console.log('comisionAprobacion.value[item].id: ',  comisionAprobacion.value[item].id);
+        if(!(comisionAprobacion.value[item].id  === undefined ) ){ 
+
             const delete2 =  ConvivenciaPacifica.deleteMiembroComision(comisionAprobacion.value[item].id).then((res) => {
               console.log('comisionAprobacion.value[item].id: ',  comisionAprobacion.value[item].id);
                 if(res.status === 204){
@@ -854,7 +858,7 @@ const save = async () => {
                     return res;
                 }
             });
-
+        }
 
         }        
     });

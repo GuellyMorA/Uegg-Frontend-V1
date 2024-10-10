@@ -20,7 +20,7 @@ const validationErrors = ref();
 const victima = ref();
 const caso = ref();
 const institucionEducativa = ref();
-
+let username: string | null ;
 
 const formSearch = ref({
     codigoRude: '',
@@ -55,6 +55,9 @@ onMounted(async() => {
     if(user && user.codigo_sie){
         // findInstitucionEducativa(user.codigo_sie);
     }
+    username = localStorage.getItem('username') ;
+
+
 }); 
 
 
@@ -148,6 +151,7 @@ const save = async () => {
     // //     });
     // //     return false;
     // // }
+    var dateParts = (form.value.fechaNacimiento).split("/");
 
     const payload = {    
         id_violencia_caso_agresor: null, //caso.value.id,
@@ -157,7 +161,7 @@ const save = async () => {
         apellido_pat_agresor: form.value.paterno,
         apellido_mat_agresor: form.value.materno,
         nombres_agresor: form.value.nombre,
-        fec_nac: form.value.fechaNacimiento,
+        fec_nac: new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]), 
         sexo: form.value.sexo,
         genero: form.value.genero,
         cargo_ocupa: form.value.cargo,
@@ -298,9 +302,9 @@ const viewItem = (item: any) => {
     form.value.correo = item.correo_electronico;
     form.value.direccionActual = item.dir_actual;
 
-    const dateParts = (item.fec_nac || '').split("-");
-    form.value.fechaNacimiento = dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0];
-    // form.value.fechaNacimiento = item.fec_nac;
+    const dateParts = (item.fec_nac || '').split("/");
+    form.value.fechaNacimiento = dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0];
+  
     form.value.sexo = item.sexo;
     form.value.genero = item.genero;
 };

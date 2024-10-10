@@ -18,6 +18,7 @@ const institucionEducativa = ref();
 const find = ref(false);
 const variusSie = ref(false);
 const construccion = ref();
+let username: string | null ;
 
 const form: any = ref({
     sie: null,
@@ -64,6 +65,7 @@ const sieRules = [
 ];
 
 onMounted(async() => {
+    username = localStorage.getItem('username') ;
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
         form.value.sie = user.codigo_sie;
@@ -193,7 +195,7 @@ const save = async () => {
     console.log("save1", save1);
 
 
-    var dateParts = (form.value.estudianteFechaNacimiento).split("-");
+    var dateParts = (form.value.estudianteFechaNacimiento).split("/");
             
     const payload2 = {    
         id_pcpa_unidad_educativa: construccion.value.id,
@@ -201,7 +203,7 @@ const save = async () => {
         cod_rude: form.value.estudianteCodigoRude,
         cedula_identidad: form.value.estudianteCedulaIdentidad,
         complemento: form.value.estudianteComplemento,
-        fec_nacimiento: new Date(dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]),
+        fec_nacimiento:  new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(),   //// form.value.estudianteFechaNacimiento, //
         nombres_estudiante: form.value.estudianteNombre,
         apellido_pat_estudiante: form.value.estudiantePaterno,
         apellido_mat_estudiante: form.value.estudianteMaterno,

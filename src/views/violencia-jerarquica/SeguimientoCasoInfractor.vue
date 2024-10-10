@@ -16,7 +16,7 @@ const list = ref();
 const dialogSave = ref(false);
 const validationErrors = ref();
 const caso = ref();
-
+let username: string | null ;
 const form: any = ref({
     numeroCaso: '',
     inicialVictima: null,
@@ -43,6 +43,8 @@ onMounted(async() => {
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
     }
+    username = localStorage.getItem('username') ;
+
 }); 
 
 const sieRules = [

@@ -28,6 +28,7 @@ const formSearch = ref({
     codigoRda: '',
     usuario: ''
 });
+let username: string | null ;
 
 const form: any = ref({
     codigoRude: '',
@@ -55,6 +56,8 @@ const form: any = ref({
 });
 
 onMounted(async() => {
+    username = localStorage.getItem('username') ;
+
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
         findInstitucionEducativa(user.codigo_sie);
@@ -152,7 +155,7 @@ const save = async () => {
                     position: toast.POSITION.TOP_RIGHT,
                 });
 
-                form.value.sexo = res.data[0].genero || ' ';
+                form.value.sexo = 'F', //res.data[0].genero || ' ';
                 form.value.genero = res.data[0].genero || ' ';
                 form.value.nivel = res.data[0].nivel;
                 form.value.grado = res.data[0].grado;
@@ -199,7 +202,7 @@ const save = async () => {
         nombres_victima: form.value.nombre,
         apellido_pat_victima: form.value.paterno,
         apellido_mat_victima: form.value.materno,
-        fec_nac: new Date(dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]),
+        fec_nac: new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]),
         sexo: form.value.sexo,
         genero: form.value.genero,
         nivel: form.value.nivel,

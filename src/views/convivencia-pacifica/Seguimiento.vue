@@ -18,6 +18,7 @@ const variusSie = ref(false);
 const indicadores = ref();
 const construccion = ref();
 const institucionEducativa = ref();
+let username: string | null ;
 
 const form: any = ref({
     sie: null,
@@ -45,6 +46,8 @@ const sieRules = [
 ];
 
 onMounted(async() => {
+    username = localStorage.getItem('username') ;
+
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
         form.value.sie = user.codigo_sie;
@@ -121,14 +124,15 @@ const save = async () => {
         dialogSave.value = false;
         return false;
     }
-
+    const dateParts = (form.value.fecha || '').split("/");
+       
     if( form.value.Indicador1 && form.value.Indicador1.id ){
         const payload1 = {
             id_pcpa_indicadores_tipo: form.value.Indicador1.id,
             id_pcpa_construccion: construccion.value.id, 
             cod_indicadores: form.value.Indicador1.cod_indicadores,
             desc_indicadores: form.value.Indicador1.desc_indicadores,
-            fec_ejecucion: form.value.fecha,        
+            fec_ejecucion:   new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(), // form.value.fecha,        
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
@@ -161,7 +165,7 @@ const save = async () => {
             id_pcpa_construccion: construccion.value.id, 
             cod_indicadores: form.value.Indicador2.cod_indicadores,
             desc_indicadores: form.value.Indicador2.desc_indicadores,
-            fec_ejecucion: form.value.fecha,        
+            fec_ejecucion:    new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(), //    form.value.fecha,        
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
@@ -194,7 +198,7 @@ const save = async () => {
             id_pcpa_construccion: construccion.value.id, 
             cod_indicadores: form.value.Indicador3.cod_indicadores,
             desc_indicadores: form.value.Indicador3.desc_indicadores,
-            fec_ejecucion: form.value.fecha,        
+            fec_ejecucion:   new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(), //    form.value.fecha,        
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()

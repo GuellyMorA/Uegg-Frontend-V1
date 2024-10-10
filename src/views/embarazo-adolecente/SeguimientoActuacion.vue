@@ -20,8 +20,10 @@ const variusSie = ref(false);
 const construccion = ref();
 const institucionEducativa = ref();
 const estudiante = ref();
+let username: string | null ;
 
 onMounted(async() => {
+    username = localStorage.getItem('username') ;
     let user = JSON.parse(localStorage.getItem('user') || '');
     if(user && user.codigo_sie){
         form.value.sie = user.codigo_sie;
@@ -182,22 +184,22 @@ const save = async () => {
         cod_rude: form.value.codigoRude,
         nombres_apellidos: estudiante.value.nombres_estudiante+' '+estudiante.value.apellido_pat_estudiante+' '+estudiante.value.apellido_mat_estudiante,
         complemento: estudiante.value.complemento,
-        fec_nacimiento:  estudiante.value.fec_nacimiento ? new Date(dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]) : null,
+        fec_nacimiento:  estudiante.value.fec_nacimiento ? new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]) : null,
         tiempo_gestacion: form.value.semanaGestacion,
         numero_embarazos: form.value.numeroEmbarazo,
-        fec_estimada_parto: form.value.fechaEstimadaParto ? new Date(dateParts1[2] +'/'+ dateParts1[1] +'/'+ dateParts1[0]) : null,
+        fec_estimada_parto: form.value.fechaEstimadaParto ? new Date(dateParts1[2] +'-'+ dateParts1[1] +'-'+ dateParts1[0]) : null,
         check_recibe_control_prenatal: form.value.recibeControlPrenatal, 
         check_requiere_baja_medica: form.value.requiereBajaMedica,
         check_requiere_permiso_para_control: form.value.requierePermisoControl,
         check_requiere_cuidado_especial: form.value.requiereCuidadoPostparto,
-        fec_retorno_a_ue: form.value.fechaRetorno ? new Date(dateParts5[2] +'/'+ dateParts5[1] +'/'+ dateParts5[0]) : null,
-        fec_conc_post_nat: form.value.fechaRetorno ? new Date(dateParts2[2] +'/'+ dateParts2[1] +'/'+ dateParts2[0]) : null,
+        fec_retorno_a_ue: form.value.fechaRetorno ? new Date(dateParts5[2] +'-'+ dateParts5[1] +'-'+ dateParts5[0]) : null,
+        fec_conc_post_nat: form.value.fechaRetorno ? new Date(dateParts2[2] +'-'+ dateParts2[1] +'-'+ dateParts2[0]) : null,
         check_cuenta_con_medidas_ue: form.value.consideracionActividades,
         check_tutores_al_tanto_emb: form.value.progenitorConoceEmbarazo,
         check_recibe_baja_medica: form.value.bajaMedica,
         check_recibe_permiso_controles_prenatales: form.value.recibeControlPrenatal,
-        fec_ini_baja_prenatal: form.value.fechaInicioBajaPrenatal ? new Date(dateParts3[2] +'/'+ dateParts3[1] +'/'+ dateParts3[0]) : null,
-        fec_fin_baja_postnatal: form.value.fechaFinBajaPostnatal ? new Date(dateParts4[2] +'/'+ dateParts4[1] +'/'+ dateParts4[0]) : null,
+        fec_ini_baja_prenatal: form.value.fechaInicioBajaPrenatal ? new Date(dateParts3[2] +'-'+ dateParts3[1] +'-'+ dateParts3[0]) : null,
+        fec_fin_baja_postnatal: form.value.fechaFinBajaPostnatal ? new Date(dateParts4[2] +'-'+ dateParts4[1] +'-'+ dateParts4[0]) : null,
 
         persona_asignada_seguimiento: form.value.director,
         check_cuenta_con_seguimiento: form.value.accionesSeguimiento,

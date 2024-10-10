@@ -181,35 +181,36 @@ const findActividadesEjecutadas = async () => {
     const res = await ConvivenciaPacifica.findActividadesEjecutadas(form.value.sie);
     console.log("res", res);
     let dateParts ;
-
+  
+       
     res.data.map((data: {   id_pcpa_actividades_tipo: number;    }, index:  number) => {
               console.log("id_actividades_ejecutadas: ", res.data[index].id_actividades_ejecutadas  )     
-     
-        const dateParts = (res.data[index].fec_actividad || '').split("/");
+      
+         dateParts = (res.data[index].fec_actividad || '').split("-");
         if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===11  ){// 
             form.value.actividad1Id= res.data[index].id_actividades_ejecutadas ;     
            form.value.actividad1= res.data[index].desc_actividades_ejecutadas ;   
-            form.value.actividad1Fecha= dateParts; //  res.data[index].fec_actividad ;  
+            form.value.actividad1Fecha= dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]; //  res.data[index].fec_actividad ;  
            }
         if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===12  ){// 
         form.value.actividad2Id= res.data[index].id_actividades_ejecutadas ;     
         form.value.actividad2= res.data[index].desc_actividades_ejecutadas ;   
-        form.value.actividad2Fecha= dateParts; // res.data[index].fec_actividad ;  
+        form.value.actividad2Fecha= dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]; // res.data[index].fec_actividad ;  
         }
         if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===13  ){// 
         form.value.actividad3Id= res.data[index].id_actividades_ejecutadas ;     
         form.value.actividad3= res.data[index].desc_actividades_ejecutadas ;   
-        form.value.actividad3Fecha=dateParts; //  res.data[index].fec_actividad ;  
+        form.value.actividad3Fecha=dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]; //  res.data[index].fec_actividad ;  
         }
         if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===14  ){// 
         form.value.actividad4Id= res.data[index].id_actividades_ejecutadas ;     
         form.value.actividad4= res.data[index].desc_actividades_ejecutadas ;   
-        form.value.actividad4Fecha= dateParts; // res.data[index].fec_actividad ;  
+        form.value.actividad4Fecha= dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]; // res.data[index].fec_actividad ;  
         }
         if(res.data && res.data.length > 0 && data.id_pcpa_actividades_tipo===15  ){// 
         form.value.actividad5Id= res.data[index].id_actividades_ejecutadas ;     
         form.value.actividad5= res.data[index].desc_actividades_ejecutadas ;   
-        form.value.actividad5Fecha=dateParts; //  res.data[index].fec_actividad ;  
+        form.value.actividad5Fecha=dateParts[2] +'/'+ dateParts[1] +'/'+ dateParts[0]; //  res.data[index].fec_actividad ;  
         }
                                                                                                       
       
@@ -432,15 +433,18 @@ const save = async () => {
 
     });
     
-    console.log("save6", save6);
-
-    if(form.value.actividad1 && form.value.actividad1.length > 0   ){
+    console.log("save6", save6);               
+      
+     
+    if( typeof(form.value.actividad1) === 'object' ? form.value.actividad1 && form.value.actividad1.name.length : !(form.value.actividad1=== 'undefined')  ){
+        var dateParts = (form.value.actividad1Fecha).split("/");
+           
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad1Id,
+            id_pcpa_actividades_tipo:  11,// form.value.actividad1Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
             //cod_actividad: form.value.actividad1.id,  
-            desc_actividad: form.value.actividad1, 
-            fec_actividad: form.value.actividad1Fecha,           
+            desc_actividad: typeof(form.value.actividad1) === 'object' ? form.value.actividad1.name : form.value.actividad1, 
+            fec_actividad:  new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(),      
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
@@ -467,13 +471,15 @@ const save = async () => {
         console.log("save1", save);
     }
 
-    if(form.value.actividad2){
+     if( typeof(form.value.actividad2) === 'object' ? form.value.actividad2 && form.value.actividad2.name.length : !(form.value.actividad2=== 'undefined') ){
+        var dateParts = (form.value.actividad2Fecha).split("/");
+           
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad2Id,
+            id_pcpa_actividades_tipo: 12,//  form.value.actividad2Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
            // cod_actividad: form.value.actividad2Id,  
-            desc_actividad: form.value.actividad2, 
-            fec_actividad: form.value.actividad2Fecha,           
+            desc_actividad: typeof(form.value.actividad2) === 'object' ? form.value.actividad2.name : form.value.actividad2, 
+            fec_actividad:  new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(),             
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
@@ -500,13 +506,15 @@ const save = async () => {
         console.log("save2", save);
     }
 
-    if(form.value.actividad3){
+    if(    typeof(form.value.actividad3) === 'object' ? form.value.actividad3 && form.value.actividad3.name.length : !(form.value.actividad3=== 'undefined')   ){
+        var dateParts = (form.value.actividad3Fecha).split("/");
+           
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad3Id,
+            id_pcpa_actividades_tipo: 13,//  form.value.actividad3Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
            // cod_actividad: form.value.actividad3.id,  
-            desc_actividad: form.value.actividad3, 
-            fec_actividad: form.value.actividad3Fecha,           
+            desc_actividad: typeof(form.value.actividad3) === 'object' ? form.value.actividad3.name : form.value.actividad3, 
+            fec_actividad:  new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(),         
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
@@ -533,13 +541,15 @@ const save = async () => {
         console.log("save3", save);
     }
 
-    if(form.value.actividad4){
+    if(form.value.actividad4 && form.value.actividad4.name.length > 0   ){
+        var dateParts = (form.value.actividad4Fecha).split("/");
+           
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad4Id,
+            id_pcpa_actividades_tipo: 14,//  form.value.actividad4Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
            // cod_actividad: form.value.actividad4.id,  
-            desc_actividad: form.value.actividad4, 
-            fec_actividad: form.value.actividad4Fecha,           
+            desc_actividad:typeof(form.value.actividad4) === 'object' ? form.value.actividad4.name : form.value.actividad4, 
+            fec_actividad:  new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(),      
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
@@ -566,13 +576,15 @@ const save = async () => {
         console.log("save4", save);
     }
 
-    if(form.value.actividad5){
+    if(form.value.actividad5 && form.value.actividad5.name.length > 0   ){
+        var dateParts = (form.value.actividad5Fecha).split("/");
+           
         const payload = {
-            id_pcpa_actividades_tipo: form.value.actividad5Id,
+            id_pcpa_actividades_tipo: 15,// form.value.actividad5Id,
             id_pcpa_construccion: miembrosComision.value[0].id,
            // cod_actividad: form.value.actividad5.id,  
-            desc_actividad: form.value.actividad5, 
-            fec_actividad: form.value.actividad5Fecha,           
+            desc_actividad: typeof(form.value.actividad5) === 'object' ? form.value.actividad5.name : form.value.actividad5, 
+            fec_actividad:  new Date(dateParts[2] +'-'+ dateParts[1] +'-'+ dateParts[0]).toISOString(),          
             estado: 'ACTIVO',
            usu_cre: username,
             fec_cre: new Date()
